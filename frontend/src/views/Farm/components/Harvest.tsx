@@ -13,6 +13,8 @@ import Value from '../../../components/Value'
 import useEarnings from '../../../hooks/useEarnings'
 import useReward from '../../../hooks/useReward'
 
+import imageLTO from '../../../assets/img/logo.png'
+
 import {
   getDisplayBalance,
   getBalanceNumber,
@@ -32,14 +34,14 @@ const Harvest: React.FC<HarvestProps> = ({ pid }) => {
       <CardContent>
         <StyledCardContentInner>
           <StyledCardHeader>
-            <CardIcon>🍣</CardIcon>
+            <CardIcon><img src={imageLTO} height="32" style={{ marginTop: -4 }} /></CardIcon>
             <Value value={getBalanceNumber(earnings)} />
-            <Label text="SASHIMI Earned" />
+            <Label text="LTO Earned" />
           </StyledCardHeader>
           <StyledCardActions>
             <Button
               disabled={!earnings.toNumber() || pendingTx}
-              text={pendingTx ? 'Collecting SASHIMI' : 'Harvest'}
+              text={pendingTx ? 'Collecting LTO' : 'Harvest'}
               onClick={async () => {
                 setPendingTx(true)
                 await onReward()

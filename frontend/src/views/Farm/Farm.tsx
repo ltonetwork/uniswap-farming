@@ -18,8 +18,11 @@ import { getMasterChefContract } from '../../sushi/utils'
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'
 
-const Farm: React.FC = () => {
-  const { farmId } = useParams()
+interface FarmProps {
+  farmId: string
+}
+
+const Farm: React.FC<FarmProps> = ({ farmId }) => {
   const {
     pid,
     lpToken,
@@ -62,7 +65,6 @@ const Farm: React.FC = () => {
   return (
     <>
       <PageHeader
-        icon={icon}
         subtitle={`Deposit ${lpTokenName}  Tokens and earn ${earnTokenName}`}
         title={name}
       />
@@ -83,7 +85,7 @@ const Farm: React.FC = () => {
         <Spacer size="lg" />
         <StyledInfo>
           ⭐️ Every time you stake and unstake LP tokens, the contract will
-          automagically harvest SASHIMI rewards for you!
+          automagically harvest LTO rewards for you!
         </StyledInfo>
         <Spacer size="lg" />
       </StyledFarm>
@@ -92,6 +94,7 @@ const Farm: React.FC = () => {
 }
 
 const StyledFarm = styled.div`
+  margin-top: -70px;
   align-items: center;
   display: flex;
   flex-direction: column;
