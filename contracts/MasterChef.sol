@@ -205,7 +205,7 @@ contract MasterChef is Ownable {
 
     // Transfer ERC20 and update the required ERC20 to payout all rewards
     function erc20Transfer(address _to, uint256 _amount) internal {
-        sashimi.transfer(_to, _amount);
+        erc20.transfer(_to, _amount);
         totalReward -= _amount;
     }
 }
