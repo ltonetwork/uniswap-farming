@@ -39,14 +39,8 @@ const App: React.FC = () => {
         <TopBar onPresentMobileMenu={handlePresentMobileMenu} />
         <MobileMenu onDismiss={handleDismissMobileMenu} visible={mobileMenu} />
         <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/farms">
+          <Route path="/">
             <Farms />
-          </Route>
-          <Route path="/faq">
-            <FAQ />
           </Route>
         </Switch>
       </Router>
