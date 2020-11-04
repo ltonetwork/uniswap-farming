@@ -105,12 +105,12 @@ interface StyledButtonProps {
 
 const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;  
-  background: ${props => props.menuButton ? props.theme.color.whiteOpacity : props.theme.color.grey[200] };
+  background: ${props => !props.disabled && props.menuButton ? props.theme.color.whiteOpacity : (!props.disabled ? props.theme.color.grey[300] : props.theme.color.grey[100]) };
   min-height: 55px;
   border: 0;
   border-radius: 0;
   text-transform: uppercase;
-  color: ${props => !props.disabled && props.menuButton ? props.theme.color.white : `${props.theme.color.grey[500]}`};
+  color: ${props => !props.disabled && props.menuButton ? props.theme.color.white : `${props.theme.color.grey[600]}`};
   cursor: pointer;
   display: flex;
   font-size: ${props => props.fontSize}px;
