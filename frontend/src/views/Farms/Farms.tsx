@@ -11,6 +11,7 @@ import WalletProviderModal from '../../components/WalletProviderModal'
 
 import useModal from '../../hooks/useModal'
 
+import useFarms from '../../hooks/useFarms'
 import Farm from '../Farm'
 
 import FarmCards from './components/FarmCards'
@@ -19,11 +20,15 @@ const Farms: React.FC = () => {
   const { path } = useRouteMatch()
   const { account } = useWallet()
   const [onPresentWalletProviderModal] = useModal(<WalletProviderModal />)
+  const [farms] = useFarms()
+  const farmId = farms && farms[0]?.id
+
   return (
     <Switch>
       <Page>
-        {!!account ? (
+        {(!!account && farmId) ? (
           <>
+            {/* Remove supported different Pools 
             <Route exact path={path}>
               <PageHeader
                 icon={<img src={chef} height="120" />}
@@ -31,9 +36,9 @@ const Farms: React.FC = () => {
                 title="Select Your Favorite Dishes"
               />
               <FarmCards />
-            </Route>
-            <Route path={`${path}/:farmId`}>
-              <Farm />
+            </Route>  */}
+            <Route path={'/'}>
+                <Farm farmId={farmId}/>
             </Route>
           </>
         ) : (

@@ -8,10 +8,11 @@ import AccountButton from './components/AccountButton'
 import Nav from './components/Nav'
 
 interface TopBarProps {
-  onPresentMobileMenu: () => void
+  onPresentMobileMenu: () => void,
+  showButton?: boolean
 }
 
-const TopBar: React.FC<TopBarProps> = ({ onPresentMobileMenu }) => {
+const TopBar: React.FC<TopBarProps> = ({ onPresentMobileMenu, showButton = false }) => {
   return (
     <StyledTopBar>
       <Container size="lg">
@@ -19,10 +20,12 @@ const TopBar: React.FC<TopBarProps> = ({ onPresentMobileMenu }) => {
           <StyledLogoWrapper>
             <Logo />
           </StyledLogoWrapper>
-          <Nav />
+          <Nav showMenu={false} />
+          {showButton &&
           <StyledAccountButtonWrapper>
             <AccountButton />
           </StyledAccountButtonWrapper>
+          }
         </StyledTopBarInner>
       </Container>
     </StyledTopBar>
@@ -36,7 +39,9 @@ const StyledLogoWrapper = styled.div`
   }
 `
 
-const StyledTopBar = styled.div``
+const StyledTopBar = styled.div`
+background: rgb(23, 5, 75);  
+`
 
 const StyledTopBarInner = styled.div`
   align-items: center;

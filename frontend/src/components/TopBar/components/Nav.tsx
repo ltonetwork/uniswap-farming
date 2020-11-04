@@ -2,21 +2,28 @@ import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
-const Nav: React.FC = () => {
+interface NavProps {
+  showMenu: boolean
+}
+
+const Nav: React.FC<NavProps> = ({ showMenu }) => {
   return (
     <StyledNav>
+      {showMenu && (
+        <>
       <StyledLink exact activeClassName="active" to="/">
         Home
       </StyledLink>
       <StyledLink exact activeClassName="active" to="/farms">
         Menu
       </StyledLink>
-      {/*<StyledAbsoluteLink*/}
-      {/*  href="https://medium.com/sushiswap/the-sushiswap-project-c4049ea9941e"*/}
-      {/*  target="_blank"*/}
-      {/*>*/}
-      {/*  About*/}
-      {/*</StyledAbsoluteLink>*/}
+      <StyledAbsoluteLink
+         href="https://medium.com/sushiswap/the-sushiswap-project-c4049ea9941e"
+         target="_blank"
+      >
+        About
+      </StyledAbsoluteLink>
+      </>)}
     </StyledNav>
   )
 }
