@@ -1,5 +1,6 @@
 export const white = '#FFF'
 export const black = '#000'
+export const whiteOpacity = 'rgba(255, 255, 255, 0.2)'
 
 export const green = {
   500: '##00d1810',

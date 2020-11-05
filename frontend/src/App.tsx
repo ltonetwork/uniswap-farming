@@ -14,9 +14,7 @@ import TransactionProvider from './contexts/Transactions'
 
 import useModal from './hooks/useModal'
 
-import FAQ from './views/FAQ'
 import Farms from './views/Farms'
-import Home from './views/Home'
 
 import { getEthChainInfo } from './utils/getEthChainInfo'
 
@@ -36,7 +34,7 @@ const App: React.FC = () => {
   return (
     <Providers>
       <Router>
-        <TopBar onPresentMobileMenu={handlePresentMobileMenu} />
+        <TopBar onPresentMobileMenu={handlePresentMobileMenu} showButton={true}/>
         <MobileMenu onDismiss={handleDismissMobileMenu} visible={mobileMenu} />
         <Switch>
           <Route path="/">

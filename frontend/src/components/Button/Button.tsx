@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 interface ButtonProps {
   children?: React.ReactNode,
   disabled?: boolean,
+  menuButton?: boolean,
   href?: string,
   onClick?: () => void,
   size?: 'sm' | 'md' | 'lg',
@@ -17,6 +18,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({
   children,
   disabled,
+  menuButton = false,
   href,
   onClick,
   size,
@@ -78,6 +80,7 @@ const Button: React.FC<ButtonProps> = ({
     <StyledButton
       boxShadow={boxShadow}
       color={buttonColor}
+      menuButton={menuButton}
       disabled={disabled}
       fontSize={fontSize}
       onClick={onClick}
@@ -94,18 +97,20 @@ interface StyledButtonProps {
   boxShadow: string,
   color: string,
   disabled?: boolean,
+  menuButton?: boolean
   fontSize: number,
   padding: number,
   size: number
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
-  align-items: center;
-  background-color: ${props => props.theme.color.grey[200]};
+  align-items: center;  
+  background: ${props => !props.disabled && props.menuButton ? props.theme.color.whiteOpacity : (!props.disabled ? props.theme.color.grey[300] : props.theme.color.grey[100]) };
+  min-height: 55px;
   border: 0;
-  border-radius: 12px;
-  box-shadow: ${props => props.boxShadow};
-  color: ${props => !props.disabled ? props.color : `${props.color}55`};
+  border-radius: 0;
+  text-transform: uppercase;
+  color: ${props => !props.disabled && props.menuButton ? props.theme.color.white : `${props.theme.color.grey[600]}`};
   cursor: pointer;
   display: flex;
   font-size: ${props => props.fontSize}px;
@@ -119,6 +124,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   width: 100%;
   &:hover {
     background-color: ${props => props.theme.color.grey[100]};
+    color: ${props => props.menuButton && props.theme.color.black}
   }
 `
 
