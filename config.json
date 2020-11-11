@@ -1,0 +1,7 @@
+{
+  "erc20": "",
+  "rewardPerBlock": 0.05,
+  "startBlock": "",
+  "bonusMultiplier": 10,
+  "bonusEndBlock": ""
+}
