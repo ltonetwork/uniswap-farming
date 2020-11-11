@@ -7,12 +7,11 @@ import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-
-// MasterChef distributes the ERC20 it owns to each user.
+// Farm distributes the ERC20 rewards based on staked LP to each user.
 //
-// Cloned from https://github.com/SashimiProject/sashimiswap/blob/master/contracts/MasterChef.sol
+// Cloned from https://github.com/SashimiProject/sashimiswap/blob/master/contracts/Farm.sol
 // Modified by LTO Network to work for non-mintable ERC20.
-contract MasterChef is Ownable {
+contract Farm is Ownable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -50,9 +49,9 @@ contract MasterChef is Ownable {
     // ERC20 tokens rewarded per block.
     uint256 public rewardPerBlock;
     // Bonus multiplier for early participants.
-    uint256 public bonusMultiplier;
+    uint256 public bonusMultiplier = 1;
     // Block number when bonus ERC20 period ends.
-    uint256 public bonusEndBlock;
+    uint256 public bonusEndBlock = 0;
 
     // Info of each pool.
     PoolInfo[] public poolInfo;
@@ -60,24 +59,16 @@ contract MasterChef is Ownable {
     mapping (uint256 => mapping (address => UserInfo)) public userInfo;
     // Total allocation points. Must be the sum of all allocation points in all pools.
     uint256 public totalAllocPoint = 0;
-    // The block number when ERC20 mining starts.
+    // The block number when ERC20 farming starts.
     uint256 public startBlock;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
     event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
 
-    constructor(
-        IERC20 _erc20,
-        uint256 _rewardPerBlock,
-        uint256 _startBlock,
-        uint256 _bonusMultiplier,
-        uint256 _bonusEndBlock
-    ) public {
+    constructor(IERC20 _erc20, uint256 _rewardPerBlock, uint256 _startBlock) public {
         erc20 = _erc20;
         rewardPerBlock = _rewardPerBlock;
-        bonusEndBlock = _bonusEndBlock;
-        bonusMultiplier = _bonusMultiplier;
         startBlock = _startBlock;
     }
 
@@ -123,7 +114,13 @@ contract MasterChef is Ownable {
         }
     }
 
-    // View function to see pending ERC20s on frontend.
+    // View function to see deposited LP for a user.
+    function deposited(uint256 _pid, address _user) external view returns (uint256) {
+        UserInfo storage user = userInfo[_pid][_user];
+        return user.amount;
+    }
+
+    // View function to see pending ERC20s for a user.
     function pendingERC20(uint256 _pid, address _user) external view returns (uint256) {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][_user];
@@ -160,14 +157,14 @@ contract MasterChef is Ownable {
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 erc20Reward = multiplier.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
 
-        // It's not possible to mint ERC20, but keep track of how much ERC20 the contract should have.
+        // It's not possible to mint, but keep track of how much ERC20 the contract should have.
         totalReward += erc20Reward;
 
         pool.accERC20PerShare = pool.accERC20PerShare.add(erc20Reward.div(lpSupply));
         pool.lastRewardBlock = block.number;
     }
 
-    // Deposit LP tokens to MasterChef for ERC20 allocation.
+    // Deposit LP tokens to Farm for ERC20 allocation.
     function deposit(uint256 _pid, uint256 _amount) public {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
@@ -182,7 +179,7 @@ contract MasterChef is Ownable {
         emit Deposit(msg.sender, _pid, _amount);
     }
 
-    // Withdraw LP tokens from MasterChef.
+    // Withdraw LP tokens from Farm.
     function withdraw(uint256 _pid, uint256 _amount) public {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
@@ -210,5 +207,12 @@ contract MasterChef is Ownable {
     function erc20Transfer(address _to, uint256 _amount) internal {
         erc20.transfer(_to, _amount);
         totalReward -= _amount;
+    }
+
+    // Setup a multiplier for the first number of blocks.
+    // This should only be called in the constructor.
+    function _setupBonus(uint256 _bonusMultiplier, uint256 _bonusEndBlock) internal {
+        bonusMultiplier = _bonusMultiplier;
+        bonusEndBlock = _bonusEndBlock;
     }
 }

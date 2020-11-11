@@ -16,7 +16,6 @@
     "mockjs": "^1.1.0"
   },
   "devDependencies": {
-    "@digix/tempo": "^0.2.0",
     "@openzeppelin/test-helpers": "^0.5.9",
     "@truffle/hdwallet-provider": "^1.2.0",
     "ganache-cli": "^6.12.1",
