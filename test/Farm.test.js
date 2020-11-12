@@ -196,6 +196,11 @@ contract('Farm', ([owner, alice, bob, carl]) => {
             assert.equal(5000, balanceLP);
         });
 
+        it('has no deposit for alice', async () => {
+            const deposited = await this.farm.deposited(0, alice);
+            assert.equal(0, deposited);
+        });
+
         it('has a total reward of 3250 MOCK pending', async () => {
             const totalPending = await this.farm.totalPending();
             assert.equal(3250, totalPending);
@@ -210,6 +215,42 @@ contract('Farm', ([owner, alice, bob, carl]) => {
 
             const pendingCarl = await this.farm.pending(0, carl);
             assert.equal(2000, pendingCarl);
+        });
+    });
+
+    describe('with a participant (carl) partially withdrawing after 80 blocks', () => {
+        before(async () => {
+            await waitUntilBlock(10, this.startBlock + 79);
+            await this.farm.withdraw(0, 1500, {from: carl});
+        });
+
+        it('gives carl 2800 MOCK and 1500 LP', async () => {
+            const balanceERC20 = await this.erc20.balanceOf(carl);
+            assert.equal(2800, balanceERC20);
+
+            const balanceLP = await this.lp.balanceOf(carl);
+            assert.equal(1500, balanceLP);
+        });
+
+        it('has a 500 LP deposit for carl', async () => {
+            const deposited = await this.farm.deposited(0, carl);
+            assert.equal(500, deposited);
+        });
+
+        it('has a total reward of 1450 MOCK pending', async () => {
+            const totalPending = await this.farm.totalPending();
+            assert.equal(1450, totalPending);
+        });
+
+        it('reserved nothing for alice, 1450 for bob, and nothing for carl', async () => {
+            const pendingAlice = await this.farm.pending(0, alice);
+            assert.equal(0, pendingAlice);
+
+            const pendingBob = await this.farm.pending(0, bob);
+            assert.equal(1450, pendingBob);
+
+            const pendingCarl = await this.farm.pending(0, carl);
+            assert.equal(0, pendingCarl);
         });
     });
 });
