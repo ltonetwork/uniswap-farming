@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 // Farm distributes the ERC20 rewards based on staked LP to each user.
 //
-// Cloned from https://github.com/SashimiProject/sashimiswap/blob/master/contracts/Farm.sol
+// Cloned from https://github.com/SashimiProject/sashimiswap/blob/master/contracts/MasterChef.sol
 // Modified by LTO Network to work for non-mintable ERC20.
 contract Farm is Ownable {
     using SafeMath for uint256;
@@ -54,9 +54,9 @@ contract Farm is Ownable {
     // Total allocation points. Must be the sum of all allocation points in all pools.
     uint256 public totalAllocPoint = 0;
 
-    // The block number when ERC20 farming starts.
+    // The block number when farming starts.
     uint256 public startBlock;
-    // The block number when ERC20 farming ends.
+    // The block number when farming ends.
     uint256 public endBlock;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
@@ -70,6 +70,7 @@ contract Farm is Ownable {
         endBlock = _startBlock;
     }
 
+    // Number of LP pools
     function poolLength() external view returns (uint256) {
         return poolInfo.length;
     }
