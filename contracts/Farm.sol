@@ -42,16 +42,10 @@ contract Farm is Ownable {
 
     // Address of the ERC20 Token contract.
     IERC20 public erc20;
-
     // The total amount of ERC20 that's paid out as reward.
     uint256 public paidOut = 0;
-
     // ERC20 tokens rewarded per block.
     uint256 public rewardPerBlock;
-    // Bonus multiplier for early participants.
-    uint256 public bonusMultiplier = 1;
-    // Block number when bonus ERC20 period ends.
-    uint256 public bonusEndBlock = 0;
 
     // Info of each pool.
     PoolInfo[] public poolInfo;
@@ -59,8 +53,11 @@ contract Farm is Ownable {
     mapping (uint256 => mapping (address => UserInfo)) public userInfo;
     // Total allocation points. Must be the sum of all allocation points in all pools.
     uint256 public totalAllocPoint = 0;
+
     // The block number when ERC20 farming starts.
     uint256 public startBlock;
+    // The block number when ERC20 farming ends.
+    uint256 public endBlock;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
@@ -70,10 +67,19 @@ contract Farm is Ownable {
         erc20 = _erc20;
         rewardPerBlock = _rewardPerBlock;
         startBlock = _startBlock;
+        endBlock = _startBlock;
     }
 
     function poolLength() external view returns (uint256) {
         return poolInfo.length;
+    }
+
+    // Fund the farm, increase the end block
+    function fund(uint256 _amount) public {
+        require(block.number < endBlock, "fund: too late, the farm is closed");
+
+        erc20.safeTransferFrom(address(msg.sender), address(this), _amount);
+        endBlock += _amount.div(rewardPerBlock);
     }
 
     // Add a new lp to the pool. Can only be called by the owner.
@@ -101,19 +107,6 @@ contract Farm is Ownable {
         poolInfo[_pid].allocPoint = _allocPoint;
     }
 
-    // Return reward multiplier over the given _from to _to block.
-    function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
-        if (_to <= bonusEndBlock) {
-            return _to.sub(_from).mul(bonusMultiplier);
-        } else if (_from >= bonusEndBlock) {
-            return _to.sub(_from);
-        } else {
-            return bonusEndBlock.sub(_from).mul(bonusMultiplier).add(
-                _to.sub(bonusEndBlock)
-            );
-        }
-    }
-
     // View function to see deposited LP for a user.
     function deposited(uint256 _pid, address _user) external view returns (uint256) {
         UserInfo storage user = userInfo[_pid][_user];
@@ -126,11 +119,14 @@ contract Farm is Ownable {
         UserInfo storage user = userInfo[_pid][_user];
         uint256 accERC20PerShare = pool.accERC20PerShare;
         uint256 lpSupply = pool.lpToken.balanceOf(address(this));
+
         if (block.number > pool.lastRewardBlock && lpSupply != 0) {
-            uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
-            uint256 erc20Reward = multiplier.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
+            uint256 lastBlock = block.number < endBlock ? block.number : endBlock;
+            uint256 nrOfBlocks = lastBlock.sub(pool.lastRewardBlock);
+            uint256 erc20Reward = nrOfBlocks.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
             accERC20PerShare = accERC20PerShare.add(erc20Reward.mul(1e12).div(lpSupply));
         }
+
         return user.amount.mul(accERC20PerShare).div(1e12).sub(user.rewardDebt);
     }
 
@@ -140,7 +136,8 @@ contract Farm is Ownable {
             return 0;
         }
 
-        return rewardPerBlock.mul(block.number - startBlock).sub(paidOut);
+        uint256 lastBlock = block.number < endBlock ? block.number : endBlock;
+        return rewardPerBlock.mul(lastBlock - startBlock).sub(paidOut);
     }
 
     // Update reward variables for all pools. Be careful of gas spending!
@@ -154,16 +151,19 @@ contract Farm is Ownable {
     // Update reward variables of the given pool to be up-to-date.
     function updatePool(uint256 _pid) public {
         PoolInfo storage pool = poolInfo[_pid];
-        if (block.number <= pool.lastRewardBlock) {
+        uint256 lastBlock = block.number < endBlock ? block.number : endBlock;
+
+        if (lastBlock <= pool.lastRewardBlock) {
             return;
         }
         uint256 lpSupply = pool.lpToken.balanceOf(address(this));
         if (lpSupply == 0) {
-            pool.lastRewardBlock = block.number;
+            pool.lastRewardBlock = lastBlock;
             return;
         }
-        uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
-        uint256 erc20Reward = multiplier.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
+
+        uint256 nrOfBlocks = lastBlock.sub(pool.lastRewardBlock);
+        uint256 erc20Reward = nrOfBlocks.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
 
         pool.accERC20PerShare = pool.accERC20PerShare.add(erc20Reward.mul(1e12).div(lpSupply));
         pool.lastRewardBlock = block.number;
@@ -212,12 +212,5 @@ contract Farm is Ownable {
     function erc20Transfer(address _to, uint256 _amount) internal {
         erc20.transfer(_to, _amount);
         paidOut += _amount;
-    }
-
-    // Setup a multiplier for the first number of blocks.
-    // This should only be called in the constructor.
-    function _setupBonus(uint256 _bonusMultiplier, uint256 _bonusEndBlock) internal {
-        bonusMultiplier = _bonusMultiplier;
-        bonusEndBlock = _bonusEndBlock;
     }
 }
