@@ -7,7 +7,8 @@
   },
   "scripts": {
     "test": "scripts/test.sh",
-    "migrate": "rm -rf build && truffle migrate"
+    "migrate": "rm -rf build && truffle migrate",
+    "verify": "truffle run verify Farm"
   },
   "license": "ISC",
   "dependencies": {

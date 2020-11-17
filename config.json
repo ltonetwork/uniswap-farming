@@ -27,7 +27,8 @@
         "address": "0x9cd7403ac4856071581e1f5a298317d9a72a19cf",
         "allocPoint": 120
       }
-    ]
+    ],
+    "fund": "50000000000000000"
   },
   "test": false
 }
