@@ -25,9 +25,7 @@ module.exports = function(deployer, network, addresses) {
           web3.utils.toBN(erc20.supply)
         );
       })
-     .then(() => {
-        erc20.address = ERC20.address;
-      });
+      .then(() => {return ERC20.deployed(); });
   }
 
   deploy = deploy  
@@ -35,11 +33,12 @@ module.exports = function(deployer, network, addresses) {
       return web3.eth.getBlockNumber();
     })
     .then((currentBlock) => {
-      const startBlock = web3.utils.toBN(currentBlock).add(web3.utils.toBN(config.delay));
+      const startBlock = config.startBlock
+          || web3.utils.toBN(currentBlock).add(web3.utils.toBN(config.delay));
     
       return deployer.deploy(
         Farm,
-        erc20.address,
+        erc20.address || ERC20.address,
         web3.utils.toBN(config.rewardPerBlock),
         startBlock
       );
@@ -48,8 +47,8 @@ module.exports = function(deployer, network, addresses) {
     if (config.fund) {
       deploy = deploy
         .then(() => { return ERC20.deployed(); })
-        .then((tokenInstance) => {
-          return tokenInstance.approve(Farm.address, web3.utils.toBN(config.fund));
+        .then((erc20Instance) => {
+          return erc20Instance.approve(Farm.address, web3.utils.toBN(config.fund));
         })
         .then(() => { return Farm.deployed(); })
         .then((farmInstance) => {
@@ -69,9 +68,6 @@ module.exports = function(deployer, network, addresses) {
             );
           })
           .then(() => {
-            token.address = LP.address;
-          })
-          .then(() => {
             return LP.deployed();
           })
           .then((lpInstance) => {
@@ -86,7 +82,11 @@ module.exports = function(deployer, network, addresses) {
       deploy = deploy
         .then(() => { return Farm.deployed(); })
         .then((farmInstance) => {
-          return farmInstance.add(token.allocPoint, token.address, false);
+          return farmInstance.add(
+            token.allocPoint,
+            token.address || LP.address,
+            false
+          );
         });
     });
 
