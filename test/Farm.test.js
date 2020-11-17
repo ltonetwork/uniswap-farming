@@ -4,12 +4,12 @@ const { waitUntilBlock } = require('./helpers/tempo')(web3);
 
 contract('Farm', ([owner, alice, bob, carl]) => {
     before(async () => {
-        this.erc20 = await ERC20.new("Mock token", "MOCK", 0, owner, 1000000);
+        this.erc20 = await ERC20.new("Mock token", "MOCK", 0, 1000000);
         let balance = await this.erc20.balanceOf(owner);
         assert.equal(balance.valueOf(), 1000000);
 
-        this.lp = await ERC20.new("LP Token", "LP", owner, 0);
-        this.lp2 = await ERC20.new("LP Token 2", "LP2", owner, 0);
+        this.lp = await ERC20.new("LP Token", "LP", 0, 0);
+        this.lp2 = await ERC20.new("LP Token 2", "LP2", 0, 0);
 
         const currentBlock = await web3.eth.getBlockNumber();
         this.startBlock = currentBlock + 100;
