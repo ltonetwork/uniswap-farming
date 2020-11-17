@@ -1,8 +1,9 @@
-const Token = artifacts.require("./ERC20Mock.sol");
+const ERC20 = artifacts.require("./ERC20Mock.sol");
+const LP = artifacts.require('./LPMock.sol');
 const Farm = artifacts.require("./Farm.sol");
 const allConfigs = require("../config.json");
 
-module.exports = function(deployer, network) {
+module.exports = function(deployer, network, addresses) {
   const config = allConfigs[network.replace(/-fork$/, '')] || allConfigs.default;
 
   if (!config) {
@@ -17,7 +18,7 @@ module.exports = function(deployer, network) {
     deploy = deploy
       .then(() => {
         return deployer.deploy(
-          Token,
+          ERC20,
           erc20.name,
           erc20.symbol,
           erc20.decimals,
@@ -25,7 +26,7 @@ module.exports = function(deployer, network) {
         );
       })
      .then(() => {
-        erc20.address = Token.address;
+        erc20.address = ERC20.address;
       });
   }
 
@@ -46,7 +47,7 @@ module.exports = function(deployer, network) {
     
     if (config.fund) {
       deploy = deploy
-        .then(() => { return Token.deployed(); })
+        .then(() => { return ERC20.deployed(); })
         .then((tokenInstance) => {
           return tokenInstance.approve(Farm.address, web3.utils.toBN(config.fund));
         })
@@ -55,7 +56,40 @@ module.exports = function(deployer, network) {
           return farmInstance.fund(web3.utils.toBN(config.fund));
         });
     }
-    
+
+    config.lp.forEach((token) => {
+      if (!token.address) {
+        deploy = deploy
+          .then(() => {
+            return deployer.deploy(
+              LP,
+              erc20.name,
+              erc20.symbol,
+              erc20.decimals,
+            );
+          })
+          .then(() => {
+            token.address = LP.address;
+          })
+          .then(() => {
+            return LP.deployed();
+          })
+          .then((lpInstance) => {
+            const promises = addresses.map((address) => {
+              return lpInstance.mint(address, 1000);
+            });
+
+            return Promise.all(promises);
+          });
+      }
+
+      deploy = deploy
+        .then(() => { return Farm.deployed(); })
+        .then((farmInstance) => {
+          return farmInstance.add(token.allocPoint, token.address, false);
+        });
+    });
+
     return deploy;
 };
 
