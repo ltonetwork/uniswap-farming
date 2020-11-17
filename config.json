@@ -1,4 +1,19 @@
 {
-  "erc20": "0x3db6ba6ab6f95efed1a6e794cad492faaabf294d",
-  "rewardPerBlock": 5000000
+  "live": {
+    "erc20": "0x3db6ba6ab6f95efed1a6e794cad492faaabf294d",
+    "rewardPerBlock": "1900000",
+    "delay": 100
+  },
+  "rinkeby": {
+    "erc20": {
+      "name": "LTO Mock Token",
+      "symbol": "LTO",
+      "decimals": 8,
+      "supply": "100000000000"
+    },
+    "rewardPerBlock": "10000000",
+    "delay": 30,
+    "fund": "50000000000"
+  }
 }
+

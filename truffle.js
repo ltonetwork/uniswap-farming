@@ -13,7 +13,11 @@ const HDWalletProvider = require("@truffle/hdwallet-provider");
  *   },
  */
 
-const mnemonic = '';
+const mnemonic = process.env.MNEMONIC;
+
+if (mnemonic === "") {
+    throw new Error("No MNEMONIC environment var");
+}
 
 // See <http://truffleframework.com/docs/advanced/configuration>
 // to customize your Truffle configuration!

@@ -8,10 +8,11 @@ contract ERC20Mock is ERC20 {
     constructor (
         string memory name,
         string memory symbol,
+        uint8 decimals,        
         address initialAccount,
         uint256 initialBalance
     ) public payable ERC20(name, symbol) {
-        _setupDecimals(0);
+        _setupDecimals(decimals);
         _mint(initialAccount, initialBalance);
     }
 

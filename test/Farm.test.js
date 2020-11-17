@@ -4,7 +4,7 @@ const { waitUntilBlock } = require('./helpers/tempo')(web3);
 
 contract('Farm', ([owner, alice, bob, carl]) => {
     before(async () => {
-        this.erc20 = await ERC20.new("Mock token", "MOCK", owner, 1000000);
+        this.erc20 = await ERC20.new("Mock token", "MOCK", 0, owner, 1000000);
         let balance = await this.erc20.balanceOf(owner);
         assert.equal(balance.valueOf(), 1000000);
 
