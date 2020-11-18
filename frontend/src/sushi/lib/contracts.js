@@ -9,8 +9,7 @@ import {
 
 import UNIV2PairAbi from './abi/uni_v2_lp.json'
 
-import SushiAbi from './abi/sushi.json'
-import MasterChefAbi from './abi/masterchef.json'
+import FarmAbi from './abi/farm.json'
 import ERC20Abi from './abi/erc20.json'
 import WETHAbi from './abi/weth.json'
 
@@ -24,8 +23,8 @@ export class Contracts {
     this.defaultGas = options.defaultGas
     this.defaultGasPrice = options.defaultGasPrice
 
-    this.sushi = new this.web3.eth.Contract(SushiAbi)
-    this.masterChef = new this.web3.eth.Contract(MasterChefAbi)
+    this.sushi = new this.web3.eth.Contract(ERC20Abi)
+    this.masterChef = new this.web3.eth.Contract(FarmAbi)
     this.weth = new this.web3.eth.Contract(WETHAbi)
 
     this.pools = supportedPools.map((pool) =>
