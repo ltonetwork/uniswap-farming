@@ -1,22 +1,6 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-/*
- * NB: since truffle-hdwallet-provider 0.0.5 you must wrap HDWallet providers in a
- * function when declaring them. Failure to do so will cause commands to hang. ex:
- * ```
- * mainnet: {
- *     provider: function() {
- *       return new HDWalletProvider(mnemonic, 'https://mainnet.infura.io/<infura-key>')
- *     },
- *     network_id: '1',
- *     gas: 4500000,
- *     gasPrice: 10000000000,
- *   },
- */
+require('dotenv').config();
 
-const mnemonic = '';
-
-// See <http://truffleframework.com/docs/advanced/configuration>
-// to customize your Truffle configuration!
 module.exports = {
     networks: {
         development: {
@@ -37,9 +21,21 @@ module.exports = {
         },
         rinkeby: {
             provider: function() {
-                return new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io/v3/166639943bd042b3b9380eada9a6356e')
+                return new HDWalletProvider(
+                    process.env.MNEMONIC,
+                    `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`
+                )
             },
             network_id: 4
+        },
+        kovan: {
+            provider: function() {
+                return new HDWalletProvider(
+                    process.env.MNEMONIC,
+                    `https://kovan.infura.io/v3/${process.env.INFURA_ID}`
+                )
+            },
+            network_id: 42
         }
     },
 
@@ -51,5 +47,13 @@ module.exports = {
                 runs: 200
             }
         }
+    },
+
+    plugins: [
+        'truffle-plugin-verify'
+    ],
+
+    api_keys: {
+        etherscan: process.env.ETHERSCAN_API_KEY
     }
 };

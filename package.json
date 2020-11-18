@@ -7,7 +7,8 @@
   },
   "scripts": {
     "test": "scripts/test.sh",
-    "migrate": "rm -rf build && truffle migrate"
+    "migrate": "rm -rf build && truffle migrate",
+    "verify": "truffle run verify Farm"
   },
   "license": "ISC",
   "dependencies": {
@@ -18,7 +19,9 @@
   "devDependencies": {
     "@openzeppelin/test-helpers": "^0.5.9",
     "@truffle/hdwallet-provider": "^1.2.0",
+    "dotenv": "^8.2.0",
     "ganache-cli": "^6.12.1",
-    "truffle": "^5.1.52"
+    "truffle": "^5.1.52",
+    "truffle-plugin-verify": "^0.5.0"
   }
 }

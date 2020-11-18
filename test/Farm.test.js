@@ -1,15 +1,16 @@
 const Farm = artifacts.require('./Farm.sol');
 const ERC20 = artifacts.require('./ERC20Mock.sol');
+const LP = artifacts.require('./LPMock.sol');
 const { waitUntilBlock } = require('./helpers/tempo')(web3);
 
 contract('Farm', ([owner, alice, bob, carl]) => {
     before(async () => {
-        this.erc20 = await ERC20.new("Mock token", "MOCK", owner, 1000000);
+        this.erc20 = await ERC20.new("Mock token", "MOCK", 0, 1000000);
         let balance = await this.erc20.balanceOf(owner);
         assert.equal(balance.valueOf(), 1000000);
 
-        this.lp = await ERC20.new("LP Token", "LP", owner, 0);
-        this.lp2 = await ERC20.new("LP Token 2", "LP2", owner, 0);
+        this.lp = await LP.new("LP Token", "LP", 0);
+        this.lp2 = await LP.new("LP Token 2", "LP2", 0);
 
         const currentBlock = await web3.eth.getBlockNumber();
         this.startBlock = currentBlock + 100;
