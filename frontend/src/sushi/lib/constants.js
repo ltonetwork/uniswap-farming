@@ -40,22 +40,20 @@
 
 export const contractAddresses = {
   sushi: {
-    42: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf', // aelf sushi new one 9.9
-    // 42: '0x43a7903E3a839a67192151eE300e11198985E54b', // sushi
-    1: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf', // aelf sashimi
-    // 1: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2', // sushi use
+    42: '0x9C821fF00DBb2D3D2C908f39bB497766eac2d8c6',
+    4: '0x11b42ca67d52ef145b5b84ba042a1859c8aeb376', // aelf sushi new one 9.9
+    1: '', // aelf sashimi
   },
   masterChef: {
-    42: '0x1DaeD74ed1dD7C9Dabbe51361ac90A69d851234D', // aelf sushi new one 9.9
-    // 42: '0x245A074cA9814fB46A21562bC70fAB92F8A3F779', // sushi
-    1: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf', // aelf master
-    // 1: '0xc2edad668740f1aa35e4d8f227fb8e17dca888cd', // sushi use
+    42: '0xbFd181cb0c8E23b65805Dded3863Dce6517402A7',
+    4: '0x3822B9E825DE217e414C0fe32565336f51d4dc82', // aelf sushi new one 9.9
+    1: '', // aelf master
   },
   weth: {
-    42: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf', // aelf sushi
-    // 42: '0xd0a1e359811322d97991e03f863a0c30c2cf029c', // weth in kovan
+    42: '0xf3a6679b266899042276804930b3bfbaf807f15b',
+    4: '0x2fcc4dba284dcf665091718e4d0dab53a416dfe7', // aelf sushi
     1: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf', // sushi use
-  },
+  }
 }
 
 /*
@@ -98,17 +96,19 @@ export const supportedPools = [
   {
     pid: 0,
     lpAddresses: {
-      42: '0xb21f5d46e1756cfeb34496636d38f97dc8552415',
+      42: '0x74414F027FDCda5DaacFa4d35F29C0d6c5020776',
+      4: '0xC55696582Cc71E9F48ED4DCc6dF35E21fCf6e00e',
       1: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf',
     },
     tokenAddresses: {
-      42: '0xf2c73AF42FbAC096FE8F591899C5fc8bCB13884B',
+      42: '0xbFd181cb0c8E23b65805Dded3863Dce6517402A7',
+      4: '0x11b42ca67d52ef145b5b84ba042a1859c8aeb376',
       1: '0x3DB6Ba6ab6F95efed1a6E794caD492fAAabF294D',
     },
     name: 'LTO Network',
     symbol: 'LTO-ETH UNI-V2 LP',
     tokenSymbol: 'LTO',
-    icon: '🐍',
-    pool: '4.1%',
+    icon: '',
+    pool: '100%',
   },
 ]
