@@ -1,5 +1,5 @@
+// SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
-
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
@@ -7,12 +7,11 @@ import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-
-// MasterChef distributes the ERC20 it owns to each user.
+// Farm distributes the ERC20 rewards based on staked LP to each user.
 //
-// Copied from https://github.com/SashimiProject/sashimiswap/blob/master/contracts/MasterChef.sol
+// Cloned from https://github.com/SashimiProject/sashimiswap/blob/master/contracts/MasterChef.sol
 // Modified by LTO Network to work for non-mintable ERC20.
-contract MasterChef is Ownable {
+contract Farm is Ownable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -35,24 +34,18 @@ contract MasterChef is Ownable {
 
     // Info of each pool.
     struct PoolInfo {
-        IERC20 lpToken;           // Address of LP token contract.
-        uint256 allocPoint;       // How many allocation points assigned to this pool. ERC20s to distribute per block.
-        uint256 lastRewardBlock;  // Last block number that ERC20s distribution occurs.
-        uint256 accERC20PerShare;   // Accumulated ERC20s per share, times 1e12. See below.
+        IERC20 lpToken;             // Address of LP token contract.
+        uint256 allocPoint;         // How many allocation points assigned to this pool. ERC20s to distribute per block.
+        uint256 lastRewardBlock;    // Last block number that ERC20s distribution occurs.
+        uint256 accERC20PerShare;   // Accumulated ERC20s per share, times 1e12.
     }
 
     // Address of the ERC20 Token contract.
-    IERC20 erc20;
-
-    // The amount of ERC20 that's required to pay out all rewards.
-    uint256 public totalReward;
-
-    // Block number when bonus ERC20 period ends.
-    uint256 public bonusEndBlock;
-    // ERC20 tokens created per block.
-    uint256 public erc20PerBlock;
-    // Bonus multiplier for early erc20 makers.
-    uint256 public constant BONUS_MULTIPLIER = 10;
+    IERC20 public erc20;
+    // The total amount of ERC20 that's paid out as reward.
+    uint256 public paidOut = 0;
+    // ERC20 tokens rewarded per block.
+    uint256 public rewardPerBlock;
 
     // Info of each pool.
     PoolInfo[] public poolInfo;
@@ -60,26 +53,34 @@ contract MasterChef is Ownable {
     mapping (uint256 => mapping (address => UserInfo)) public userInfo;
     // Total allocation points. Must be the sum of all allocation points in all pools.
     uint256 public totalAllocPoint = 0;
-    // The block number when ERC20 mining starts.
+
+    // The block number when farming starts.
     uint256 public startBlock;
+    // The block number when farming ends.
+    uint256 public endBlock;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
     event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
 
-    constructor(
-        IERC20 _erc20,
-        uint256 _erc20PerBlock,
-        uint256 _startBlock,
-        uint256 _bonusEndBlock
-    ) public {
-        erc20PerBlock = _erc20PerBlock;
-        bonusEndBlock = _bonusEndBlock;
+    constructor(IERC20 _erc20, uint256 _rewardPerBlock, uint256 _startBlock) public {
+        erc20 = _erc20;
+        rewardPerBlock = _rewardPerBlock;
         startBlock = _startBlock;
+        endBlock = _startBlock;
     }
 
+    // Number of LP pools
     function poolLength() external view returns (uint256) {
         return poolInfo.length;
+    }
+
+    // Fund the farm, increase the end block
+    function fund(uint256 _amount) public {
+        require(block.number < endBlock, "fund: too late, the farm is closed");
+
+        erc20.safeTransferFrom(address(msg.sender), address(this), _amount);
+        endBlock += _amount.div(rewardPerBlock);
     }
 
     // Add a new lp to the pool. Can only be called by the owner.
@@ -107,33 +108,38 @@ contract MasterChef is Ownable {
         poolInfo[_pid].allocPoint = _allocPoint;
     }
 
-    // Return reward multiplier over the given _from to _to block.
-    function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
-        if (_to <= bonusEndBlock) {
-            return _to.sub(_from).mul(BONUS_MULTIPLIER);
-        } else if (_from >= bonusEndBlock) {
-            return _to.sub(_from);
-        } else {
-            return bonusEndBlock.sub(_from).mul(BONUS_MULTIPLIER).add(
-                _to.sub(bonusEndBlock)
-            );
-        }
+    // View function to see deposited LP for a user.
+    function deposited(uint256 _pid, address _user) external view returns (uint256) {
+        UserInfo storage user = userInfo[_pid][_user];
+        return user.amount;
     }
 
-    // View function to see pending ERC20s on frontend.
-    function pendingERC20(uint256 _pid, address _user) external view returns (uint256) {
+    // View function to see pending ERC20s for a user.
+    function pending(uint256 _pid, address _user) external view returns (uint256) {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][_user];
         uint256 accERC20PerShare = pool.accERC20PerShare;
         uint256 lpSupply = pool.lpToken.balanceOf(address(this));
+
         if (block.number > pool.lastRewardBlock && lpSupply != 0) {
-            uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
-            uint256 erc20Reward = multiplier.mul(erc20PerBlock).mul(pool.allocPoint).div(totalAllocPoint);
+            uint256 lastBlock = block.number < endBlock ? block.number : endBlock;
+            uint256 nrOfBlocks = lastBlock.sub(pool.lastRewardBlock);
+            uint256 erc20Reward = nrOfBlocks.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
             accERC20PerShare = accERC20PerShare.add(erc20Reward.mul(1e12).div(lpSupply));
         }
+
         return user.amount.mul(accERC20PerShare).div(1e12).sub(user.rewardDebt);
     }
 
+    // View function for total reward the farm has yet to pay out.
+    function totalPending() external view returns (uint256) {
+        if (block.number <= startBlock) {
+            return 0;
+        }
+
+        uint256 lastBlock = block.number < endBlock ? block.number : endBlock;
+        return rewardPerBlock.mul(lastBlock - startBlock).sub(paidOut);
+    }
 
     // Update reward variables for all pools. Be careful of gas spending!
     function massUpdatePools() public {
@@ -146,32 +152,32 @@ contract MasterChef is Ownable {
     // Update reward variables of the given pool to be up-to-date.
     function updatePool(uint256 _pid) public {
         PoolInfo storage pool = poolInfo[_pid];
-        if (block.number <= pool.lastRewardBlock) {
+        uint256 lastBlock = block.number < endBlock ? block.number : endBlock;
+
+        if (lastBlock <= pool.lastRewardBlock) {
             return;
         }
         uint256 lpSupply = pool.lpToken.balanceOf(address(this));
         if (lpSupply == 0) {
-            pool.lastRewardBlock = block.number;
+            pool.lastRewardBlock = lastBlock;
             return;
         }
-        uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
-        uint256 erc20Reward = multiplier.mul(erc20PerBlock).mul(pool.allocPoint).div(totalAllocPoint);
 
-        // It's not possible to mint ERC20, but keep track of how much ERC20 the contract should have.
-        totalReward += erc20Reward;
+        uint256 nrOfBlocks = lastBlock.sub(pool.lastRewardBlock);
+        uint256 erc20Reward = nrOfBlocks.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
 
         pool.accERC20PerShare = pool.accERC20PerShare.add(erc20Reward.mul(1e12).div(lpSupply));
         pool.lastRewardBlock = block.number;
     }
 
-    // Deposit LP tokens to MasterChef for ERC20 allocation.
+    // Deposit LP tokens to Farm for ERC20 allocation.
     function deposit(uint256 _pid, uint256 _amount) public {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
         updatePool(_pid);
         if (user.amount > 0) {
-            uint256 pending = user.amount.mul(pool.accERC20PerShare).div(1e12).sub(user.rewardDebt);
-            erc20Transfer(msg.sender, pending);
+            uint256 pendingAmount = user.amount.mul(pool.accERC20PerShare).div(1e12).sub(user.rewardDebt);
+            erc20Transfer(msg.sender, pendingAmount);
         }
         pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
         user.amount = user.amount.add(_amount);
@@ -179,14 +185,14 @@ contract MasterChef is Ownable {
         emit Deposit(msg.sender, _pid, _amount);
     }
 
-    // Withdraw LP tokens from MasterChef.
+    // Withdraw LP tokens from Farm.
     function withdraw(uint256 _pid, uint256 _amount) public {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
-        require(user.amount >= _amount, "withdraw: not good");
+        require(user.amount >= _amount, "withdraw: can't withdraw more than deposit");
         updatePool(_pid);
-        uint256 pending = user.amount.mul(pool.accERC20PerShare).div(1e12).sub(user.rewardDebt);
-        erc20Transfer(_to, _amount);
+        uint256 pendingAmount = user.amount.mul(pool.accERC20PerShare).div(1e12).sub(user.rewardDebt);
+        erc20Transfer(msg.sender, pendingAmount);
         user.amount = user.amount.sub(_amount);
         user.rewardDebt = user.amount.mul(pool.accERC20PerShare).div(1e12);
         pool.lpToken.safeTransfer(address(msg.sender), _amount);
@@ -206,6 +212,6 @@ contract MasterChef is Ownable {
     // Transfer ERC20 and update the required ERC20 to payout all rewards
     function erc20Transfer(address _to, uint256 _amount) internal {
         erc20.transfer(_to, _amount);
-        totalReward -= _amount;
+        paidOut += _amount;
     }
 }
