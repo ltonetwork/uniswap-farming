@@ -6,7 +6,6 @@ import { getSushiAddress } from '../../../sushi/utils'
 
 import useTokenBalance from '../../../hooks/useTokenBalance'
 import {
-  getDisplayBalance,
   getBalanceNumber,
 } from '../../../utils/formatBalance'
 
@@ -17,10 +16,11 @@ import Modal, { ModalProps } from '../../Modal'
 import ModalActions from '../../ModalActions'
 import ModalContent from '../../ModalContent'
 import ModalTitle from '../../ModalTitle'
-import Separator from '../../Separator'
 import Spacer from '../../Spacer'
 import Value from '../../Value'
 import {getEthChainInfo} from "../../../utils/getEthChainInfo";
+
+import imageLTO from '../../../assets/img/logo.png'
 
 const {
   ethscanType
@@ -46,12 +46,11 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
         <div style={{ display: 'flex' }}>
           <StyledBalanceWrapper>
             <CardIcon>
-              <span>🍣</span>
+              <img src={imageLTO} height="32" style={{ marginTop: -4 }} />
             </CardIcon>
             <StyledBalance>
               <Value value={getBalanceNumber(sushiBalance)} />
-              {/*<Label text="SUSHI Balance" />*/}
-              <Label text="SASHIMI Balance" />
+              <Label text="Lto Balance" />
             </StyledBalance>
           </StyledBalanceWrapper>
         </div>
