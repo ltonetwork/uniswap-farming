@@ -62,17 +62,20 @@ module.exports = function(deployer, network, addresses) {
           .then(() => {
             return deployer.deploy(
               LP,
-              erc20.name,
-              erc20.symbol,
-              erc20.decimals,
+              token.name,
+              token.symbol,
+              token.decimals,
             );
           })
           .then(() => {
             return LP.deployed();
           })
           .then((lpInstance) => {
+            const amount = web3.utils.toBN(10).pow(web3.utils.toBN(token.decimals))
+              .mul(web3.utils.toBN(1000));
+
             const promises = addresses.map((address) => {
-              return lpInstance.mint(address, 1000);
+              return lpInstance.mint(address, amount);
             });
 
             return Promise.all(promises);
