@@ -144,7 +144,9 @@ const StyledButton = styled.button<StyledButtonProps>`
   pointer-events: ${props => !props.disabled ? undefined : 'none'};
   width: 100%;
   &:hover {
-    background-color: ${props => props.backgroundColor ? `${props.backgroundColor}aa` : (props.color && `${props.color}99` || props.theme.color.grey[400])};
+    background-color: ${props => props.backgroundColor ? `${props.backgroundColor}aa` : 
+        (props.variant === 'secondary' ? props.theme.color.grey[200] : (props.color && `${props.color}99` || props.theme.color.grey[400]))
+    };
     color: ${props => props.color && ((props.menuButton || props.backgroundColor || props.variant === 'tertiary') ? props.theme.color.white : props.theme.color.grey[800])}
   }
 `
