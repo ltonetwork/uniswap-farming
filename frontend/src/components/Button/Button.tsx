@@ -97,6 +97,7 @@ const Button: React.FC<ButtonProps> = ({
       size={buttonSize}
       backgroundColor={backgroundColor}
       border={border}
+      variant={variant}
     >
       {children}
       {ButtonChild}
@@ -113,7 +114,8 @@ interface StyledButtonProps {
   padding: number,
   size: number,
   backgroundColor: string,
-  border: boolean
+  border: boolean,
+  variant: string
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -123,10 +125,13 @@ const StyledButton = styled.button<StyledButtonProps>`
         (!props.disabled ? props.color : props.theme.color.white)
     )};
   min-height: 45px;
-  border: ${props => (props.disabled && `1px solid ${props.theme.color.grey[200]}`) || props.border ? `1px solid ${props.theme.color.grey[400]}` : '0'};
+  border: ${props => (props.disabled && `1px solid ${props.theme.color.grey[100]}`) || props.border ? `1px solid ${props.theme.color.grey[400]}` : '0'};
   border-radius: 4px;
   text-transform: capitalize;
-  color: ${props => (!props.disabled && !props.color) || props.backgroundColor ? props.theme.color.white : `${props.theme.color.grey[200]}`};
+  color: ${props => (props.disabled && `${props.theme.color.grey[300]}`) 
+    || (props.variant === 'secondary' && props.theme.color.grey[700] 
+    || (props.variant === 'tertiary' || props.backgroundColor || props.menuButton) && `${props.theme.color.white}`)
+  };
   cursor: pointer;
   display: flex;
   font-size: ${props => props.fontSize}px;
@@ -140,7 +145,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   width: 100%;
   &:hover {
     background-color: ${props => props.backgroundColor ? `${props.backgroundColor}aa` : (props.color && `${props.color}99` || props.theme.color.grey[400])};
-    color: ${props => props.color && ((props.menuButton || props.backgroundColor) ? props.theme.color.white : props.theme.color.grey[800])}
+    color: ${props => props.color && ((props.menuButton || props.backgroundColor || props.variant === 'tertiary') ? props.theme.color.white : props.theme.color.grey[800])}
   }
 `
 

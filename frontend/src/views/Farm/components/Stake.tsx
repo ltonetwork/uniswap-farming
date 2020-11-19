@@ -103,7 +103,8 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
                 <StyledActionSpacer />
                 <Button
                     text="Withdraw"
-                    variant={'tertiary'}
+                    border
+                    variant={'secondary'}
                     onClick={onPresentDeposit}
                 />
                 <StyledActionSpacer />

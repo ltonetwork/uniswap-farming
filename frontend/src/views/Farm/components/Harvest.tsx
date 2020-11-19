@@ -42,7 +42,8 @@ const Harvest: React.FC<HarvestProps> = ({ pid }) => {
             <Button
               disabled={!earnings.toNumber() || pendingTx}
               text={pendingTx ? 'Collecting LTO' : 'Harvest'}
-              variant={'tertiary'}
+              variant={'secondary'}
+              border
               onClick={async () => {
                 setPendingTx(true)
                 await onReward()
