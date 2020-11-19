@@ -23,8 +23,8 @@ export class Contracts {
     this.defaultGas = options.defaultGas
     this.defaultGasPrice = options.defaultGasPrice
 
-    this.farm = new this.web3.eth.Contract(ERC20Abi)
-    this.masterChef = new this.web3.eth.Contract(FarmAbi)
+    this.erc20 = new this.web3.eth.Contract(ERC20Abi)
+    this.farm = new this.web3.eth.Contract(FarmAbi)
     this.weth = new this.web3.eth.Contract(WETHAbi)
 
     this.pools = supportedPools.map((pool) =>
@@ -47,8 +47,8 @@ export class Contracts {
       else console.error('Contract address not found in network', networkId)
     }
 
+    setProvider(this.erc20, contractAddresses.erc20[networkId])
     setProvider(this.farm, contractAddresses.farm[networkId])
-    setProvider(this.masterChef, contractAddresses.masterChef[networkId])
     setProvider(this.weth, contractAddresses.weth[networkId])
 
     this.pools.forEach(
@@ -60,8 +60,8 @@ export class Contracts {
   }
 
   setDefaultAccount(account) {
+    this.erc20.options.from = account
     this.farm.options.from = account
-    this.masterChef.options.from = account
   }
 
   // async callContractFunction(method, options) {

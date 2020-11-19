@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import {contractAddresses} from '../../../farm/lib/constants';
 import {getEthChainInfo} from "../../../utils/getEthChainInfo";
-// import {GITHUB} from '../../../constants/config';
+import githubLogo from '../../../assets/img/github.png'
+import {GITHUB} from '../../../constants/config';
 
 const {
     ethscanType,
@@ -16,15 +17,21 @@ const Nav: React.FC = () => {
     <StyledNav>
       <StyledLink
         target="_blank"
-        href={`https://${ethscanType}etherscan.io/address/${contractAddressesTemp.farm[chainId]}#code`}
+        href={`https://${ethscanType}etherscan.io/token/${contractAddressesTemp.erc20[chainId]}#code`}
       >
-        Sashimi Contract
+        ERC20 Contract
       </StyledLink>
       <StyledLink
         target="_blank"
-        href={`https://${ethscanType}etherscan.io/address/${contractAddressesTemp.masterChef[chainId]}#code`}
+        href={`https://${ethscanType}etherscan.io/address/${contractAddressesTemp.farm[chainId]}#code`}
       >
-        MasterChef Contract
+        Farm Contract
+      </StyledLink>
+      <StyledLink
+        target="_blank"
+        href={GITHUB}
+      >
+        <img src={githubLogo} />
       </StyledLink>
     </StyledNav>
   )
@@ -42,6 +49,9 @@ const StyledLink = styled.a`
   text-decoration: none;
   &:hover {
     color: ${(props) => props.theme.color.grey[500]};
+  }
+  img {
+    height: 19px;
   }
 `
 

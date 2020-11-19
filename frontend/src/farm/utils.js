@@ -27,10 +27,10 @@ export const getWethContract = (farm) => {
 }
 
 export const getMasterChefContract = (farm) => {
-  return farm && farm.contracts && farm.contracts.masterChef
+  return farm && farm.contracts && farm.contracts.farm
 }
 export const getFarmContract = (farm) => {
-  return farm && farm.contracts && farm.contracts.farm
+  return farm && farm.contracts && farm.contracts.erc20
 }
 
 export const getFarms = (farm) => {
@@ -58,7 +58,7 @@ export const getFarms = (farm) => {
           tokenSymbol,
           tokenContract,
           earnToken: 'lto',
-          earnTokenAddress: farm.contracts.farm.options.address,
+          earnTokenAddress: farm.contracts.erc20.options.address,
           icon,
           pool,
         }),
@@ -132,7 +132,7 @@ export const approve = async (lpContract, masterChefContract, account) => {
 }
 
 export const getFarmSupply = async (farm) => {
-  return new BigNumber(await farm.contracts.farm.methods.totalSupply().call())
+  return new BigNumber(await farm.contracts.erc20.methods.totalSupply().call())
 }
 
 //
