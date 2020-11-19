@@ -37,7 +37,7 @@ contract Farm is Ownable {
         IERC20 lpToken;             // Address of LP token contract.
         uint256 allocPoint;         // How many allocation points assigned to this pool. ERC20s to distribute per block.
         uint256 lastRewardBlock;    // Last block number that ERC20s distribution occurs.
-        uint256 accERC20PerShare;   // Accumulated ERC20s per share, times 1e12.
+        uint256 accERC20PerShare;   // Accumulated ERC20s per share, times 1e36.
     }
 
     // Address of the ERC20 Token contract.
@@ -125,10 +125,10 @@ contract Farm is Ownable {
             uint256 lastBlock = block.number < endBlock ? block.number : endBlock;
             uint256 nrOfBlocks = lastBlock.sub(pool.lastRewardBlock);
             uint256 erc20Reward = nrOfBlocks.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
-            accERC20PerShare = accERC20PerShare.add(erc20Reward.mul(1e12).div(lpSupply));
+            accERC20PerShare = accERC20PerShare.add(erc20Reward.mul(1e36).div(lpSupply));
         }
 
-        return user.amount.mul(accERC20PerShare).div(1e12).sub(user.rewardDebt);
+        return user.amount.mul(accERC20PerShare).div(1e36).sub(user.rewardDebt);
     }
 
     // View function for total reward the farm has yet to pay out.
@@ -166,7 +166,7 @@ contract Farm is Ownable {
         uint256 nrOfBlocks = lastBlock.sub(pool.lastRewardBlock);
         uint256 erc20Reward = nrOfBlocks.mul(rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
 
-        pool.accERC20PerShare = pool.accERC20PerShare.add(erc20Reward.mul(1e12).div(lpSupply));
+        pool.accERC20PerShare = pool.accERC20PerShare.add(erc20Reward.mul(1e36).div(lpSupply));
         pool.lastRewardBlock = block.number;
     }
 
@@ -176,12 +176,12 @@ contract Farm is Ownable {
         UserInfo storage user = userInfo[_pid][msg.sender];
         updatePool(_pid);
         if (user.amount > 0) {
-            uint256 pendingAmount = user.amount.mul(pool.accERC20PerShare).div(1e12).sub(user.rewardDebt);
+            uint256 pendingAmount = user.amount.mul(pool.accERC20PerShare).div(1e36).sub(user.rewardDebt);
             erc20Transfer(msg.sender, pendingAmount);
         }
         pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
         user.amount = user.amount.add(_amount);
-        user.rewardDebt = user.amount.mul(pool.accERC20PerShare).div(1e12);
+        user.rewardDebt = user.amount.mul(pool.accERC20PerShare).div(1e36);
         emit Deposit(msg.sender, _pid, _amount);
     }
 
@@ -191,10 +191,10 @@ contract Farm is Ownable {
         UserInfo storage user = userInfo[_pid][msg.sender];
         require(user.amount >= _amount, "withdraw: can't withdraw more than deposit");
         updatePool(_pid);
-        uint256 pendingAmount = user.amount.mul(pool.accERC20PerShare).div(1e12).sub(user.rewardDebt);
+        uint256 pendingAmount = user.amount.mul(pool.accERC20PerShare).div(1e36).sub(user.rewardDebt);
         erc20Transfer(msg.sender, pendingAmount);
         user.amount = user.amount.sub(_amount);
-        user.rewardDebt = user.amount.mul(pool.accERC20PerShare).div(1e12);
+        user.rewardDebt = user.amount.mul(pool.accERC20PerShare).div(1e36);
         pool.lpToken.safeTransfer(address(msg.sender), _amount);
         emit Withdraw(msg.sender, _pid, _amount);
     }
