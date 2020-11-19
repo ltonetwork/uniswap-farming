@@ -44,17 +44,18 @@ const StyledIcon = styled.div`
 //  width: 120px;
 
 const StyledTitle = styled.h1`
-  font-family: 'Kaushan Script', sans-serif;
   color: ${(props) => props.theme.color.white};
-  font-size: 36px;
-  font-weight: 700;
   margin: 0;
+  margin-bottom: 10px;
+  font-size: 40px;
+  font-weight: 500;
   padding: 0;
+  letter-spacing: 1px;
 `
 
 const StyledSubtitle = styled.h3`
-  color: ${(props) => props.theme.color.white};
-  font-size: 18px;
+  color: ${(props) => props.theme.color.grey[400]};
+  font-size: 20px;
   font-weight: 400;
   margin: 0;
   padding: 0;

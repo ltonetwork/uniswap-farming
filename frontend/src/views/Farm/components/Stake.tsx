@@ -26,7 +26,7 @@ import { getBalanceNumber } from '../../../utils/formatBalance'
 import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
 
-import imageUniswap from '../../../assets/img/uniswap.png'
+import imageUniswap from '../../../assets/img/logo-uniswap.svg'
 
 interface StakeProps {
   lpContract: Contract
@@ -80,7 +80,7 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
       <CardContent>
         <StyledCardContentInner>
           <StyledCardHeader>
-            <CardIcon><img src={imageUniswap} height="32" style={{ marginTop: -4 }} /></CardIcon>
+            <CardIcon><img src={imageUniswap} height="50" style={{ marginTop: -4 }} /></CardIcon>
             <Value value={getBalanceNumber(stakedBalance)} />
             <Label text={`${tokenName} Tokens Staked`} />
           </StyledCardHeader>
@@ -88,6 +88,7 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
             {!allowance.toNumber() ? (
               <Button
                 disabled={requestedApproval}
+                variant={'tertiary'}
                 onClick={handleApprove}
                 text={`Approve ${tokenName}`}
               />
@@ -95,8 +96,14 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
               <>
                 <Button
                   disabled={stakedBalance.eq(new BigNumber(0))}
-                  text="Unstake"
+                  text="Deposit"
                   onClick={onPresentWithdraw}
+                />
+                <StyledActionSpacer />
+                <Button
+                    text="Withdraw"
+                    variant='secondary'
+                    onClick={onPresentDeposit}
                 />
                 <StyledActionSpacer />
                 <IconButton onClick={onPresentDeposit}>

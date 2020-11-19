@@ -83,10 +83,21 @@ const Farm: React.FC<FarmProps> = ({ farmId }) => {
           </StyledCardWrapper>
         </StyledCardsWrapper>
         <Spacer size="lg" />
-        <StyledInfo>
-          ⭐️ Every time you stake and unstake LP tokens, the contract will
-          automagically harvest LTO rewards for you!
-        </StyledInfo>
+        <Spacer size="lg" />
+        <div
+              style={{
+                alignItems: 'center',
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'center',
+              }}
+          >
+            <Button
+                text="Open Uniswap Pool"
+                backgroundColor='#ed007a'
+                href='https://info.uniswap.org/token/0x3db6ba6ab6f95efed1a6e794cad492faaabf294d'
+            />
+        </div>
         <Spacer size="lg" />
       </StyledFarm>
     </>

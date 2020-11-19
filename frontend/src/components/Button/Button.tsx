@@ -12,7 +12,8 @@ interface ButtonProps {
   size?: 'sm' | 'md' | 'lg',
   text?: string,
   to?: string,
-  variant?: 'default' | 'secondary' | 'tertiary'
+  variant?: 'default' | 'secondary' | 'tertiary',
+  backgroundColor?: string
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -25,13 +26,18 @@ const Button: React.FC<ButtonProps> = ({
   text,
   to,
   variant,
+  backgroundColor
 }) => {
   const { color, spacing } = useContext(ThemeContext)
 
   let buttonColor: string
+  let background: string
   switch (variant) {
+    case 'tertiary':
+        buttonColor = color.purple[100]
+      break
     case 'secondary':
-      buttonColor = color.grey[500]
+      buttonColor = color.white
       break
     case 'default':
     default:
@@ -61,6 +67,7 @@ const Button: React.FC<ButtonProps> = ({
     default:
       boxShadow = `6px 6px 12px ${color.grey[300]},
         -12px -12px 24px -2px ${color.grey[100]}ff;`
+
       buttonPadding = spacing[4]
       buttonSize = 56
       fontSize = 16
@@ -86,6 +93,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       padding={buttonPadding}
       size={buttonSize}
+      backgroundColor={backgroundColor}
     >
       {children}
       {ButtonChild}
@@ -100,17 +108,21 @@ interface StyledButtonProps {
   menuButton?: boolean
   fontSize: number,
   padding: number,
-  size: number
+  size: number,
+  backgroundColor: string
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;  
-  background: ${props => !props.disabled && props.menuButton ? props.theme.color.whiteOpacity : (!props.disabled ? props.theme.color.purple[300] : props.theme.color.grey[100]) };
+  background: ${props => props.backgroundColor || 
+        (!props.disabled && props.menuButton ? props.theme.color.whiteOpacity : 
+        (!props.disabled ? props.color : props.theme.color.white)
+    )};
   min-height: 55px;
-  border: 0;
-  border-radius: 2px;
-  text-transform: uppercase;
-  color: ${props => !props.disabled ? props.theme.color.white : `${props.theme.color.grey[400]}`};
+  border: ${props => props.disabled ? `1px solid ${props.theme.color.grey[200]}` : '0'};
+  border-radius: 4px;
+  text-transform: capitalize;
+  color: ${props => (!props.disabled && !props.color) || props.backgroundColor ? props.theme.color.white : `${props.theme.color.grey[200]}`};
   cursor: pointer;
   display: flex;
   font-size: ${props => props.fontSize}px;
@@ -123,8 +135,8 @@ const StyledButton = styled.button<StyledButtonProps>`
   pointer-events: ${props => !props.disabled ? undefined : 'none'};
   width: 100%;
   &:hover {
-    background-color: ${props => props.theme.color.purple[100]};
-    color: ${props => props.menuButton && props.theme.color.white}
+    background-color: ${props => props.backgroundColor ? `${props.backgroundColor}99` : (props.color && `${props.color}66` || props.theme.color.grey[400])};
+    color: ${props => props.color && ((props.menuButton || props.backgroundColor) ? props.theme.color.white : props.theme.color.grey[800])}
   }
 `
 

@@ -105,7 +105,7 @@ export const supportedPools = [
       4: '0x11b42ca67d52ef145b5b84ba042a1859c8aeb376',
       1: '0x3DB6Ba6ab6F95efed1a6E794caD492fAAabF294D',
     },
-    name: 'LTO Network',
+    name: 'LTO-ETH',
     symbol: 'LTO-ETH UNI-V2 LP',
     tokenSymbol: 'LTO',
     icon: '',
