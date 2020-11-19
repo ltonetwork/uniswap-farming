@@ -3,11 +3,11 @@ export const getEthChainInfo = () => {
     let rpcUrl: string = 'https://rinkeby.infura.io/';
     let ethscanType: string = 'rinkeby.';
     const href = window.location.href;
-    // if (/\/\/[sushi|sashimi|]+.aelf.io|\/\/sashimi.cool/.test(href)) {
-    //     chainId = 1;
-    //     rpcUrl = 'https://mainnet.eth.aragon.network/';
-    //     ethscanType = '';
-    // }
+    if (/\/\/farm.lto.network/.test(href)) {
+         chainId = 1;
+         rpcUrl = 'https://mainnet.eth.aragon.network/';
+         ethscanType = '';
+    }
     return {
         chainId,
         rpcUrl,
