@@ -13,7 +13,7 @@
       {
         "name": "LTO LP Mock",
         "symbol": "LP LTO",
-        "decimals": 0,
+        "decimals": 18,
         "allocPoint": 120
       }
     ]
