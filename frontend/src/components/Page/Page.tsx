@@ -9,7 +9,6 @@ const Page: React.FC = ({ children }) => (
     <StyledMain>
       {children}
     </StyledMain>
-    <Footer />
   </StyledPage>
 )
 

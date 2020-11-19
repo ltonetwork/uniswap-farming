@@ -6,5 +6,5 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 })
 
-export { Sushi as Yam } from './Sushi.js'
+export { Farm as Yam } from './Farm.js'
 export { Web3, BigNumber }

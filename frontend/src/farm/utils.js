@@ -16,26 +16,26 @@ const GAS_LIMIT = {
   },
 }
 
-export const getMasterChefAddress = (sushi) => {
-  return sushi && sushi.masterChefAddress
+export const getMasterChefAddress = (farm) => {
+  return farm && farm.masterChefAddress
 }
-export const getSushiAddress = (sushi) => {
-  return sushi && sushi.sushiAddress
+export const getFarmAddress = (farm) => {
+  return farm && farm.farmAddress
 }
-export const getWethContract = (sushi) => {
-  return sushi && sushi.contracts && sushi.contracts.weth
-}
-
-export const getMasterChefContract = (sushi) => {
-  return sushi && sushi.contracts && sushi.contracts.masterChef
-}
-export const getSushiContract = (sushi) => {
-  return sushi && sushi.contracts && sushi.contracts.sushi
+export const getWethContract = (farm) => {
+  return farm && farm.contracts && farm.contracts.weth
 }
 
-export const getFarms = (sushi) => {
-  return sushi
-    ? sushi.contracts.pools.map(
+export const getMasterChefContract = (farm) => {
+  return farm && farm.contracts && farm.contracts.masterChef
+}
+export const getFarmContract = (farm) => {
+  return farm && farm.contracts && farm.contracts.farm
+}
+
+export const getFarms = (farm) => {
+  return farm
+    ? farm.contracts.pools.map(
         ({
           pid,
           name,
@@ -57,9 +57,8 @@ export const getFarms = (sushi) => {
           tokenAddress,
           tokenSymbol,
           tokenContract,
-          // earnToken: 'farm',
           earnToken: 'lto',
-          earnTokenAddress: sushi.contracts.sushi.options.address,
+          earnTokenAddress: farm.contracts.farm.options.address,
           icon,
           pool,
         }),
@@ -132,8 +131,8 @@ export const approve = async (lpContract, masterChefContract, account) => {
     .send({ from: account })
 }
 
-export const getSushiSupply = async (sushi) => {
-  return new BigNumber(await sushi.contracts.sushi.methods.totalSupply().call())
+export const getFarmSupply = async (farm) => {
+  return new BigNumber(await farm.contracts.farm.methods.totalSupply().call())
 }
 
 //

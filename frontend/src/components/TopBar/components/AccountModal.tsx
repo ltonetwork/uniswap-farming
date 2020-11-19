@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { useWallet } from 'use-wallet'
 import useYam from '../../../hooks/useYam'
-import { getSushiAddress } from '../../../farm/utils'
+import { getFarmAddress } from '../../../farm/utils'
 
 import useTokenBalance from '../../../hooks/useTokenBalance'
 import {
@@ -35,7 +35,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   }, [onDismiss, reset])
 
   const yam = useYam()
-  const sushiBalance = useTokenBalance(getSushiAddress(yam))
+  const farmBalance = useTokenBalance(getFarmAddress(yam))
 
   return (
     <Modal>
@@ -49,7 +49,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
               <img src={imageLTO} height="32" style={{ marginTop: -4 }} />
             </CardIcon>
             <StyledBalance>
-              <Value value={getBalanceNumber(sushiBalance)} />
+              <Value value={getBalanceNumber(farmBalance)} />
               <Label text="Lto Balance" />
             </StyledBalance>
           </StyledBalanceWrapper>

@@ -43,8 +43,8 @@ const FarmCards: React.FC = () => {
       : new BigNumber(0)
 
   const BLOCKS_PER_YEAR = new BigNumber(2336000)
-  // TODO: After block height xxxx, SUSHI_PER_BLOCK = 100;
-  const SASHIMI_PER_BLOCK = new BigNumber(1000)
+  // TODO: After block height xxxx, FARM_PER_BLOCK = 100;
+  const FARM_PER_BLOCK = new BigNumber(1000)
 
   const rows = farms.reduce<FarmWithStakedValue[][]>(
     (farmRows, farm, i) => {
@@ -53,7 +53,7 @@ const FarmCards: React.FC = () => {
         ...stakedValue[i],
         apy: stakedValue[i]
           ? farmPrice
-              .times(SASHIMI_PER_BLOCK)
+              .times(FARM_PER_BLOCK)
               .times(BLOCKS_PER_YEAR)
               .times(stakedValue[i].poolWeight)
               .div(stakedValue[i].totalWethValue)

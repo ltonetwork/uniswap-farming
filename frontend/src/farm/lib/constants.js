@@ -39,7 +39,7 @@
 // }
 
 export const contractAddresses = {
-  sushi: {
+  farm: {
     42: '0x9C821fF00DBb2D3D2C908f39bB497766eac2d8c6',
     4: '0x11b42ca67d52ef145b5b84ba042a1859c8aeb376', // aelf farm new one 9.9
     1: '', // aelf sashimi

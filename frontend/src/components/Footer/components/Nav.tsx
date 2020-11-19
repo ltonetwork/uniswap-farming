@@ -14,7 +14,7 @@ const contractAddressesTemp = contractAddresses as {[index: string]:any};
 const Nav: React.FC = () => {
     return (
     <StyledNav>
-      {/* <StyledLink
+      <StyledLink
         target="_blank"
         href={`https://${ethscanType}etherscan.io/address/${contractAddressesTemp.farm[chainId]}#code`}
       >
@@ -25,26 +25,7 @@ const Nav: React.FC = () => {
         href={`https://${ethscanType}etherscan.io/address/${contractAddressesTemp.masterChef[chainId]}#code`}
       >
         MasterChef Contract
-      </StyledLink> */}
-      {/*<StyledLink*/}
-      {/*  target="_blank"*/}
-      {/*  href={`https://uniswap.info/pair/${contractAddressesTemp.farm[chainId]}`}*/}
-      {/*>*/}
-      {/*  Uniswap SASHIMI-ETH*/}
-      {/*</StyledLink>*/}
-      {/* <StyledLink target="_blank" href="https://discord.gg/zTdmUkb">
-        Discord
       </StyledLink>
-        <StyledLink target="_blank" href="https://t.me/joinchat/KABj-Bz6CVzyi23HK2rjzA">
-        Telegram
-      </StyledLink> */}
-      {/*<StyledLink target="_blank" href="https://github.com/sushiswap">*/}
-      {/*<StyledLink target="_blank" href={GITHUB}>*/}
-      {/*  Github*/}
-      {/*</StyledLink>*/}
-      {/*<StyledLink target="_blank" href="https://twitter.com/sushiswap">*/}
-      {/*  Twitter*/}
-      {/*</StyledLink>*/}
     </StyledNav>
   )
 }
