@@ -71,7 +71,7 @@ const Button: React.FC<ButtonProps> = ({
         -12px -12px 24px -2px ${color.grey[100]}ff;`
 
       buttonPadding = spacing[4]
-      buttonSize = 56
+      buttonSize = 45
       fontSize = 16
   }
 
@@ -122,7 +122,7 @@ const StyledButton = styled.button<StyledButtonProps>`
         (!props.disabled && props.menuButton ? props.theme.color.whiteOpacity : 
         (!props.disabled ? props.color : props.theme.color.white)
     )};
-  min-height: 55px;
+  min-height: 45px;
   border: ${props => (props.disabled && `1px solid ${props.theme.color.grey[200]}`) || props.border ? `1px solid ${props.theme.color.grey[400]}` : '0'};
   border-radius: 4px;
   text-transform: capitalize;
