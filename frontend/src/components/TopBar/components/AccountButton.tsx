@@ -36,7 +36,7 @@ const AccountButton: React.FC<AccountButtonProps> = (props) => {
         <Button
           onClick={onPresentAccountModal}
           size="sm"
-          text="My Wallet"
+          text="My Account"
           menuButton
         />
       )}

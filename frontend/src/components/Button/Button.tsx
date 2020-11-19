@@ -9,7 +9,7 @@ interface ButtonProps {
   menuButton?: boolean,
   href?: string,
   onClick?: () => void,
-  size?: 'sm' | 'md' | 'lg',
+  size?: 'xs' | 'sm' | 'md' | 'lg',
   text?: string,
   to?: string,
   variant?: 'default' | 'secondary' | 'tertiary',
@@ -50,7 +50,10 @@ const Button: React.FC<ButtonProps> = ({
   let buttonSize: number
   let buttonPadding: number
   let fontSize: number
+  let minHeight: number = 45
   switch (size) {
+    case 'xs':
+      minHeight = 36
     case 'sm':
       boxShadow = `4px 4px 8px ${color.grey[300]},
         -8px -8px 16px ${color.grey[100]}FF;`
@@ -98,6 +101,7 @@ const Button: React.FC<ButtonProps> = ({
       backgroundColor={backgroundColor}
       border={border}
       variant={variant}
+      minHeight={minHeight}
     >
       {children}
       {ButtonChild}
@@ -115,7 +119,8 @@ interface StyledButtonProps {
   size: number,
   backgroundColor: string,
   border: boolean,
-  variant: string
+  variant: string,
+  minHeight: number
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -124,7 +129,7 @@ const StyledButton = styled.button<StyledButtonProps>`
         (!props.disabled && props.menuButton ? props.theme.color.whiteOpacity : 
         (!props.disabled ? props.color : props.theme.color.white)
     )};
-  min-height: 45px;
+  min-height: ${props => props.minHeight}px;
   border: ${props => (props.disabled && `1px solid ${props.theme.color.grey[100]}`) || props.border ? `1px solid ${props.theme.color.grey[400]}` : '0'};
   border-radius: 4px;
   text-transform: capitalize;
