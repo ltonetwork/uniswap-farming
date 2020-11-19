@@ -13,7 +13,7 @@ import useYam from '../../hooks/useYam'
 import useFarm from '../../hooks/useFarm'
 import useRedeem from '../../hooks/useRedeem'
 import { getContract } from '../../utils/erc20'
-import { getMasterChefContract } from '../../sushi/utils'
+import { getMasterChefContract } from '../../farm/utils'
 
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'

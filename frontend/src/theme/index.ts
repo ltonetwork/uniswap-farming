@@ -1,4 +1,4 @@
-import { black, green, grey, red, white, whiteOpacity } from './colors'
+import { black, green, grey, red, purple, white, whiteOpacity } from './colors'
 
 const theme = {
   borderRadius: 12,
@@ -16,7 +16,8 @@ const theme = {
       main: green[500],
     },
     white,
-    whiteOpacity
+    whiteOpacity,
+    purple
   },
   siteWidth: 1200,
   spacing: {

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { useWallet } from 'use-wallet'
 import useYam from '../../../hooks/useYam'
-import { getSushiAddress } from '../../../sushi/utils'
+import { getSushiAddress } from '../../../farm/utils'
 
 import useTokenBalance from '../../../hooks/useTokenBalance'
 import {
@@ -89,4 +89,4 @@ const StyledBalanceWrapper = styled.div`
   margin-bottom: ${(props) => props.theme.spacing[4]}px;
 `
 
-export default AccountModal
+export default AccountModal;

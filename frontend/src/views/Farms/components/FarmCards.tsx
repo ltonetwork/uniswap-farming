@@ -18,7 +18,7 @@ import BigNumber from 'bignumber.js'
 import { Farm } from '../../../contexts/Farms'
 
 import { bnToDec } from '../../../utils'
-import { getEarned, getMasterChefContract } from '../../../sushi/utils'
+import { getEarned, getMasterChefContract } from '../../../farm/utils'
 import useAllStakedValue, {
   StakedValue,
 } from '../../../hooks/useAllStakedValue'
@@ -34,13 +34,12 @@ const FarmCards: React.FC = () => {
   const { account } = useWallet()
   const stakedValue = useAllStakedValue()
 
-  const sushiIndex = farms.findIndex(
+  const farmIndex = farms.findIndex(
     ({ tokenSymbol }) => tokenSymbol === BASIC_TOKEN,
   )
 
-  const sushiPrice =
-    sushiIndex >= 0 && stakedValue[sushiIndex]
-      ? stakedValue[sushiIndex].tokenPriceInWeth
+  const farmPrice = farmIndex >= 0 && stakedValue[farmIndex]
+      ? stakedValue[farmIndex].tokenPriceInWeth
       : new BigNumber(0)
 
   const BLOCKS_PER_YEAR = new BigNumber(2336000)
@@ -53,7 +52,7 @@ const FarmCards: React.FC = () => {
         ...farm,
         ...stakedValue[i],
         apy: stakedValue[i]
-          ? sushiPrice
+          ? farmPrice
               .times(SASHIMI_PER_BLOCK)
               .times(BLOCKS_PER_YEAR)
               .times(stakedValue[i].poolWeight)

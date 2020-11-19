@@ -105,12 +105,12 @@ interface StyledButtonProps {
 
 const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;  
-  background: ${props => !props.disabled && props.menuButton ? props.theme.color.whiteOpacity : (!props.disabled ? props.theme.color.grey[300] : props.theme.color.grey[100]) };
+  background: ${props => !props.disabled && props.menuButton ? props.theme.color.whiteOpacity : (!props.disabled ? props.theme.color.purple[300] : props.theme.color.grey[100]) };
   min-height: 55px;
   border: 0;
-  border-radius: 0;
+  border-radius: 2px;
   text-transform: uppercase;
-  color: ${props => !props.disabled && props.menuButton ? props.theme.color.white : `${props.theme.color.grey[600]}`};
+  color: ${props => !props.disabled ? props.theme.color.white : `${props.theme.color.grey[400]}`};
   cursor: pointer;
   display: flex;
   font-size: ${props => props.fontSize}px;
@@ -123,8 +123,8 @@ const StyledButton = styled.button<StyledButtonProps>`
   pointer-events: ${props => !props.disabled ? undefined : 'none'};
   width: 100%;
   &:hover {
-    background-color: ${props => props.theme.color.grey[100]};
-    color: ${props => props.menuButton && props.theme.color.black}
+    background-color: ${props => props.theme.color.purple[100]};
+    color: ${props => props.menuButton && props.theme.color.white}
   }
 `
 

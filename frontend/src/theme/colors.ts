@@ -21,3 +21,8 @@ export const grey = {
   600: '#5b3926',
   800: '#2d1e12',
 }
+
+export const purple = {
+  100: '#804bc9',
+  300: '#976dd2',
+}

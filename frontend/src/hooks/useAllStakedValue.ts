@@ -10,7 +10,7 @@ import {
   getWethContract,
   getFarms,
   getTotalLPWethValue,
-} from '../sushi/utils'
+} from '../farm/utils'
 import useYam from './useYam'
 import useBlock from './useBlock'
 

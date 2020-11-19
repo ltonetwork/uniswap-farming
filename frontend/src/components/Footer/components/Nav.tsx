@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {contractAddresses} from '../../../sushi/lib/constants';
+import {contractAddresses} from '../../../farm/lib/constants';
 import {getEthChainInfo} from "../../../utils/getEthChainInfo";
 // import {GITHUB} from '../../../constants/config';
 
@@ -16,7 +16,7 @@ const Nav: React.FC = () => {
     <StyledNav>
       {/* <StyledLink
         target="_blank"
-        href={`https://${ethscanType}etherscan.io/address/${contractAddressesTemp.sushi[chainId]}#code`}
+        href={`https://${ethscanType}etherscan.io/address/${contractAddressesTemp.farm[chainId]}#code`}
       >
         Sashimi Contract
       </StyledLink>
@@ -28,7 +28,7 @@ const Nav: React.FC = () => {
       </StyledLink> */}
       {/*<StyledLink*/}
       {/*  target="_blank"*/}
-      {/*  href={`https://uniswap.info/pair/${contractAddressesTemp.sushi[chainId]}`}*/}
+      {/*  href={`https://uniswap.info/pair/${contractAddressesTemp.farm[chainId]}`}*/}
       {/*>*/}
       {/*  Uniswap SASHIMI-ETH*/}
       {/*</StyledLink>*/}

@@ -41,18 +41,18 @@
 export const contractAddresses = {
   sushi: {
     42: '0x9C821fF00DBb2D3D2C908f39bB497766eac2d8c6',
-    4: '0x11b42ca67d52ef145b5b84ba042a1859c8aeb376', // aelf sushi new one 9.9
+    4: '0x11b42ca67d52ef145b5b84ba042a1859c8aeb376', // aelf farm new one 9.9
     1: '', // aelf sashimi
   },
   masterChef: {
     42: '0xbFd181cb0c8E23b65805Dded3863Dce6517402A7',
-    4: '0x3822B9E825DE217e414C0fe32565336f51d4dc82', // aelf sushi new one 9.9
+    4: '0x3822B9E825DE217e414C0fe32565336f51d4dc82', // aelf farm new one 9.9
     1: '', // aelf master
   },
   weth: {
     42: '0xf3a6679b266899042276804930b3bfbaf807f15b',
-    4: '0x2fcc4dba284dcf665091718e4d0dab53a416dfe7', // aelf sushi
-    1: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf', // sushi use
+    4: '0x2fcc4dba284dcf665091718e4d0dab53a416dfe7', // aelf farm
+    1: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf', // farm use
   }
 }
 
@@ -84,7 +84,7 @@ export const supportedPools = [
   //   },
   //   tokenAddresses: {
   //     42: '0x4615fF2bf25B5b40E08Bf50C7eBb8Bd6C97Eb14F', // ABC token
-  //     // 42: '0x76cE90eC600f6D8Af072eAA811485C5e0EE17d30', // sushi
+  //     // 42: '0x76cE90eC600f6D8Af072eAA811485C5e0EE17d30', // farm
   //     1: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2', // Null
   //   },
   //   // elf:42: 0xB5685232b185cAdF7C5F58217722Ac40BC4ec45e

@@ -5,7 +5,7 @@ import { useWallet } from 'use-wallet'
 import { provider } from 'web3-core'
 import { Contract } from 'web3-eth-contract'
 
-import { approve, getMasterChefContract } from '../sushi/utils'
+import { approve, getMasterChefContract } from '../farm/utils'
 
 const useApprove = (lpContract: Contract) => {
   const { account }: { account: string; ethereum: provider } = useWallet()
