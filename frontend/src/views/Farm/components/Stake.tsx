@@ -95,13 +95,13 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
             ) : (
               <>
                 <Button
-                  disabled={stakedBalance.eq(new BigNumber(0))}
                   text="Deposit"
                   variant={'tertiary'}
                   onClick={onPresentDeposit}
                 />
                 <StyledActionSpacer />
                 <Button
+                    disabled={stakedBalance.eq(new BigNumber(0))}
                     text="Withdraw"
                     border
                     variant={'secondary'}

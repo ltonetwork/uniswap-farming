@@ -6,7 +6,7 @@ import { useWallet } from 'use-wallet'
 import { Contract } from 'web3-eth-contract'
 
 import {
-  getMasterChefContract,
+  getFarmContract,
   getWethContract,
   getFarms,
   getTotalLPWethValue,
@@ -27,7 +27,7 @@ const useAllStakedValue = () => {
   const { account }: { account: string; ethereum: provider } = useWallet()
   const yam = useYam()
   const farms = getFarms(yam)
-  const masterChefContract = getMasterChefContract(yam)
+  const farmContract = getFarmContract(yam)
   const wethContact = getWethContract(yam)
   const block = useBlock()
 
@@ -44,7 +44,7 @@ const useAllStakedValue = () => {
           tokenContract: Contract
         }) =>
           getTotalLPWethValue(
-            masterChefContract,
+            farmContract,
             wethContact,
             lpContract,
             tokenContract,
@@ -54,13 +54,13 @@ const useAllStakedValue = () => {
     )
 
     setBalance(balances)
-  }, [account, masterChefContract, yam])
+  }, [account, farmContract, yam])
 
   useEffect(() => {
-    if (account && masterChefContract && yam) {
+    if (account && farmContract && yam) {
       fetchAllStakedValue()
     }
-  }, [account, block, masterChefContract, setBalance, yam])
+  }, [account, block, farmContract, setBalance, yam])
 
   return balances
 }

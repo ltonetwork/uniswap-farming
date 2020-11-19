@@ -36,8 +36,8 @@ export class Farm {
       this.web3.eth.defaultAccount = options.defaultAccount
     }
     this.contracts = new Contracts(realProvider, networkId, this.web3, options)
-    this.farmAddress = contractAddresses.erc20[networkId]
-    this.masterChefAddress = contractAddresses.farm[networkId]
+    this.erc20Address = contractAddresses.erc20[networkId]
+    this.farmAddress = contractAddresses.farm[networkId]
     this.wethAddress = contractAddresses.weth[networkId]
   }
 

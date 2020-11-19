@@ -13,7 +13,7 @@ import useYam from '../../hooks/useYam'
 import useFarm from '../../hooks/useFarm'
 import useRedeem from '../../hooks/useRedeem'
 import { getContract } from '../../utils/erc20'
-import { getMasterChefContract } from '../../farm/utils'
+import { getFarmContract } from '../../farm/utils'
 
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'
@@ -52,7 +52,7 @@ const Farm: React.FC<FarmProps> = ({ farmId }) => {
     return getContract(ethereum as provider, lpTokenAddress)
   }, [ethereum, lpTokenAddress])
 
-  const { onRedeem } = useRedeem(getMasterChefContract(yam))
+  const { onRedeem } = useRedeem(getFarmContract(yam))
 
   const lpTokenName = useMemo(() => {
     return lpToken.toUpperCase()

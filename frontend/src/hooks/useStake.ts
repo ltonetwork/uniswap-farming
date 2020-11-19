@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import useYam from './useYam'
 import { useWallet } from 'use-wallet'
 
-import { stake, getMasterChefContract } from '../farm/utils'
+import { stake, getFarmContract } from '../farm/utils'
 
 const useStake = (pid: number) => {
   const { account } = useWallet()
@@ -12,7 +12,7 @@ const useStake = (pid: number) => {
   const handleStake = useCallback(
     async (amount: string) => {
       const txHash = await stake(
-        getMasterChefContract(yam),
+        getFarmContract(yam),
         pid,
         amount,
         account,

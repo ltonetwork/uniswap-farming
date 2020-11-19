@@ -18,7 +18,7 @@ import BigNumber from 'bignumber.js'
 import { Farm } from '../../../contexts/Farms'
 
 import { bnToDec } from '../../../utils'
-import { getEarned, getMasterChefContract } from '../../../farm/utils'
+import { getEarned, getFarmContract } from '../../../farm/utils'
 import useAllStakedValue, {
   StakedValue,
 } from '../../../hooks/useAllStakedValue'
@@ -120,7 +120,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
     async function fetchEarned() {
       if (yam) return
       const earned = await getEarned(
-        getMasterChefContract(yam),
+        getFarmContract(yam),
         lpTokenAddress,
         account,
       )

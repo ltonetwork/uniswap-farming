@@ -1,5 +1,3 @@
-export const GITHUB = 'https://github.com/ltonetwork/uniswap-farming';
-
 export const contractAddresses = {
   erc20: {
     42: '0x9C821fF00DBb2D3D2C908f39bB497766eac2d8c6',
