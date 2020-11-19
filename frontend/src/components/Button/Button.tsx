@@ -13,7 +13,8 @@ interface ButtonProps {
   text?: string,
   to?: string,
   variant?: 'default' | 'secondary' | 'tertiary',
-  backgroundColor?: string
+  backgroundColor?: string,
+  border?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -26,7 +27,8 @@ const Button: React.FC<ButtonProps> = ({
   text,
   to,
   variant,
-  backgroundColor
+  backgroundColor,
+  border= false
 }) => {
   const { color, spacing } = useContext(ThemeContext)
 
@@ -94,6 +96,7 @@ const Button: React.FC<ButtonProps> = ({
       padding={buttonPadding}
       size={buttonSize}
       backgroundColor={backgroundColor}
+      border={border}
     >
       {children}
       {ButtonChild}
@@ -109,7 +112,8 @@ interface StyledButtonProps {
   fontSize: number,
   padding: number,
   size: number,
-  backgroundColor: string
+  backgroundColor: string,
+  border: boolean
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -119,7 +123,7 @@ const StyledButton = styled.button<StyledButtonProps>`
         (!props.disabled ? props.color : props.theme.color.white)
     )};
   min-height: 55px;
-  border: ${props => props.disabled ? `1px solid ${props.theme.color.grey[200]}` : '0'};
+  border: ${props => (props.disabled && `1px solid ${props.theme.color.grey[200]}`) || props.border ? `1px solid ${props.theme.color.grey[400]}` : '0'};
   border-radius: 4px;
   text-transform: capitalize;
   color: ${props => (!props.disabled && !props.color) || props.backgroundColor ? props.theme.color.white : `${props.theme.color.grey[200]}`};
@@ -135,7 +139,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   pointer-events: ${props => !props.disabled ? undefined : 'none'};
   width: 100%;
   &:hover {
-    background-color: ${props => props.backgroundColor ? `${props.backgroundColor}99` : (props.color && `${props.color}66` || props.theme.color.grey[400])};
+    background-color: ${props => props.backgroundColor ? `${props.backgroundColor}aa` : (props.color && `${props.color}99` || props.theme.color.grey[400])};
     color: ${props => props.color && ((props.menuButton || props.backgroundColor) ? props.theme.color.white : props.theme.color.grey[800])}
   }
 `
