@@ -35,7 +35,7 @@ const Harvest: React.FC<HarvestProps> = ({ pid }) => {
         <StyledCardContentInner>
           <StyledCardHeader>
             <CardIcon><img src={imageLTO} height="50" style={{ marginTop: -4 }} /></CardIcon>
-            <Value value={getBalanceNumber(earnings, 8)} decimals={5} />
+            <Value value={getBalanceNumber(earnings, 8)} decimals={3} />
             <Label text="LTO Earned" />
           </StyledCardHeader>
           <StyledCardActions>
