@@ -13,10 +13,13 @@ module.exports = {
             port: 8545,
             network_id: "*"
         },
-        live: {
-            host: "localhost",
-            port: 8545,
-            gas: 6700000,
+        mainnet: {
+            provider: function() {
+                return new HDWalletProvider(
+                    process.env.MNEMONIC,
+                    `https://mainnet.infura.io/v3/${process.env.INFURA_ID}`
+                )
+            },
             network_id: 1
         },
         rinkeby: {
