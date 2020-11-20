@@ -7,7 +7,8 @@ import logo from '../../assets/img/logo.png'
 const Logo: React.FC = () => {
   return (
     <StyledLogo to="/">
-      <img src={logo} height="32" style={{ marginTop: -4 }} />
+      <img src={logo} height="40" style={{ marginTop: -4 }} />
+      <strong>LTO</strong> Liquidity Farm
     </StyledLogo>
   )
 }
@@ -21,22 +22,17 @@ const StyledLogo = styled(Link)`
   min-width: 44px;
   padding: 0;
   text-decoration: none;
-`
-
-const StyledText = styled.span`
-  color: ${(props) => props.theme.color.grey[600]};
-  font-family: 'Reem Kufi', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  margin-left: ${(props) => props.theme.spacing[2]}px;
-  @media (max-width: 400px) {
-    display: none;
+  font-size: 1.6em;
+  color: #fff;
+  font-weight: 100;
+  
+  img {
+    margin-right: 12px;
   }
-`
-
-const MasterChefText = styled.span`
-  font-family: 'Kaushan Script', sans-serif;
+  strong {
+    margin-right: 8px;
+    font-weight: 500;
+  }
 `
 
 export default Logo

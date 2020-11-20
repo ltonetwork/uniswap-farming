@@ -13,7 +13,7 @@ import useYam from '../../hooks/useYam'
 import useFarm from '../../hooks/useFarm'
 import useRedeem from '../../hooks/useRedeem'
 import { getContract } from '../../utils/erc20'
-import { getMasterChefContract } from '../../sushi/utils'
+import { getFarmContract } from '../../farm/utils'
 
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'
@@ -52,7 +52,7 @@ const Farm: React.FC<FarmProps> = ({ farmId }) => {
     return getContract(ethereum as provider, lpTokenAddress)
   }, [ethereum, lpTokenAddress])
 
-  const { onRedeem } = useRedeem(getMasterChefContract(yam))
+  const { onRedeem } = useRedeem(getFarmContract(yam))
 
   const lpTokenName = useMemo(() => {
     return lpToken.toUpperCase()
@@ -65,7 +65,7 @@ const Farm: React.FC<FarmProps> = ({ farmId }) => {
   return (
     <>
       <PageHeader
-        subtitle={`Deposit ${lpTokenName}  Tokens and earn ${earnTokenName}`}
+        subtitle={`Deposit ${lpTokenName} Tokens and earn ${earnTokenName}`}
         title={name}
       />
       <StyledFarm>
@@ -83,10 +83,22 @@ const Farm: React.FC<FarmProps> = ({ farmId }) => {
           </StyledCardWrapper>
         </StyledCardsWrapper>
         <Spacer size="lg" />
-        <StyledInfo>
-          ⭐️ Every time you stake and unstake LP tokens, the contract will
-          automagically harvest LTO rewards for you!
-        </StyledInfo>
+        <Spacer size="lg" />
+        <div
+              style={{
+                alignItems: 'center',
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'center',
+              }}
+          >
+            <Button
+                text="Open Uniswap Pool"
+                backgroundColor='#ed007a'
+                size="xs"
+                href='https://info.uniswap.org/token/0x3db6ba6ab6f95efed1a6e794cad492faaabf294d'
+            />
+        </div>
         <Spacer size="lg" />
       </StyledFarm>
     </>
@@ -123,9 +135,9 @@ const StyledCardWrapper = styled.div`
 `
 
 const StyledInfo = styled.h3`
-  color: ${(props) => props.theme.color.grey[400]};
+  color: '#17054b';
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   margin: 0;
   padding: 0;
   text-align: center;

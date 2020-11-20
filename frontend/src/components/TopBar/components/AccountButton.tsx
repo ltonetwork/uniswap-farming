@@ -16,7 +16,7 @@ const AccountButton: React.FC<AccountButtonProps> = (props) => {
 
   const [onPresentAccountModal] = useModal(<AccountModal />)
   const [onPresentWalletProviderModal] = useModal(<WalletProviderModal />, 'provider')
-  
+
   const { account } = useWallet()
 
   const handleUnlockClick = useCallback(() => {
@@ -36,7 +36,7 @@ const AccountButton: React.FC<AccountButtonProps> = (props) => {
         <Button
           onClick={onPresentAccountModal}
           size="sm"
-          text="My Wallet"
+          text="My Account"
           menuButton
         />
       )}

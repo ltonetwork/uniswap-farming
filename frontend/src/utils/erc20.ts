@@ -16,12 +16,12 @@ export const getContract = (provider: provider, address: string) => {
 
 export const getAllowance = async (
   lpContract: Contract,
-  masterChefContract: Contract,
+  farmContract: Contract,
   account: string,
 ): Promise<string> => {
   try {
     const allowance: string = await lpContract.methods
-      .allowance(account, masterChefContract.options.address)
+      .allowance(account, farmContract.options.address)
       .call()
     return allowance
   } catch (e) {

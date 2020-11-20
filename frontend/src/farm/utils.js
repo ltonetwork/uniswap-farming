@@ -16,26 +16,26 @@ const GAS_LIMIT = {
   },
 }
 
-export const getMasterChefAddress = (sushi) => {
-  return sushi && sushi.masterChefAddress
+export const getFarmAddress = (farm) => {
+  return farm && farm.farmAddress
 }
-export const getSushiAddress = (sushi) => {
-  return sushi && sushi.sushiAddress
+export const getERC20Address = (farm) => {
+  return farm && farm.erc20Address
 }
-export const getWethContract = (sushi) => {
-  return sushi && sushi.contracts && sushi.contracts.weth
-}
-
-export const getMasterChefContract = (sushi) => {
-  return sushi && sushi.contracts && sushi.contracts.masterChef
-}
-export const getSushiContract = (sushi) => {
-  return sushi && sushi.contracts && sushi.contracts.sushi
+export const getWethContract = (farm) => {
+  return farm && farm.contracts && farm.contracts.weth
 }
 
-export const getFarms = (sushi) => {
-  return sushi
-    ? sushi.contracts.pools.map(
+export const getFarmContract = (farm) => {
+  return farm && farm.contracts && farm.contracts.farm
+}
+export const getERC20Contract = (farm) => {
+  return farm && farm.contracts && farm.contracts.erc20
+}
+
+export const getFarms = (farm) => {
+  return farm
+    ? farm.contracts.pools.map(
         ({
           pid,
           name,
@@ -57,9 +57,8 @@ export const getFarms = (sushi) => {
           tokenAddress,
           tokenSymbol,
           tokenContract,
-          // earnToken: 'sushi',
           earnToken: 'lto',
-          earnTokenAddress: sushi.contracts.sushi.options.address,
+          earnTokenAddress: farm.contracts.erc20.options.address,
           icon,
           pool,
         }),
@@ -67,10 +66,10 @@ export const getFarms = (sushi) => {
     : []
 }
 
-export const getPoolWeight = async (masterChefContract, pid) => {
+export const getPoolWeight = async (farmContract, pid) => {
   try {
-    const { allocPoint } = await masterChefContract.methods.poolInfo(pid).call()
-    const totalAllocPoint = await masterChefContract.methods
+    const { allocPoint } = await farmContract.methods.poolInfo(pid).call()
+    const totalAllocPoint = await farmContract.methods
       .totalAllocPoint()
       .call()
     return new BigNumber(allocPoint).div(new BigNumber(totalAllocPoint))
@@ -79,12 +78,12 @@ export const getPoolWeight = async (masterChefContract, pid) => {
   }
 }
 
-export const getEarned = async (masterChefContract, pid, account) => {
-  return masterChefContract.methods.pending(pid, account).call()
+export const getEarned = async (farmContract, pid, account) => {
+  return farmContract.methods.pending(pid, account).call()
 }
 
 export const getTotalLPWethValue = async (
-  masterChefContract,
+  farmContract,
   wethContract,
   lpContract,
   tokenContract,
@@ -95,9 +94,9 @@ export const getTotalLPWethValue = async (
     .balanceOf(lpContract.options.address)
     .call()
   const tokenDecimals = await tokenContract.methods.decimals().call()
-  // Get the share of lpContract that masterChefContract owns
+  // Get the share of lpContract that farmContract owns
   const balance = await lpContract.methods
-    .balanceOf(masterChefContract.options.address)
+    .balanceOf(farmContract.options.address)
     .call()
   // Convert that into the portion of total lpContract = p1
   const totalSupply = await lpContract.methods.totalSupply().call()
@@ -122,28 +121,28 @@ export const getTotalLPWethValue = async (
     wethAmount,
     totalWethValue: totalLpWethValue.div(new BigNumber(10).pow(18)),
     tokenPriceInWeth: wethAmount.div(tokenAmount),
-    poolWeight: await getPoolWeight(masterChefContract, pid),
+    poolWeight: await getPoolWeight(farmContract, pid),
   }
 }
 
-export const approve = async (lpContract, masterChefContract, account) => {
+export const approve = async (lpContract, farmContract, account) => {
   return lpContract.methods
-    .approve(masterChefContract.options.address, ethers.constants.MaxUint256)
+    .approve(farmContract.options.address, ethers.constants.MaxUint256)
     .send({ from: account })
 }
 
-export const getSushiSupply = async (sushi) => {
-  return new BigNumber(await sushi.contracts.sushi.methods.totalSupply().call())
+export const getFarmSupply = async (farm) => {
+  return new BigNumber(await farm.contracts.erc20.methods.totalSupply().call())
 }
 
 //
 
-export const getPoolStartTime = async (masterChefContract) => {
-  return await masterChefContract.methods.starttime().call()
+export const getPoolStartTime = async (farmContract) => {
+  return await farmContract.methods.starttime().call()
 }
 
-export const stake = async (masterChefContract, pid, amount, account) => {
-  return masterChefContract.methods
+export const stake = async (farmContract, pid, amount, account) => {
+  return farmContract.methods
     .deposit(
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
@@ -155,8 +154,8 @@ export const stake = async (masterChefContract, pid, amount, account) => {
     })
 }
 
-export const unstake = async (masterChefContract, pid, amount, account) => {
-  return masterChefContract.methods
+export const unstake = async (farmContract, pid, amount, account) => {
+  return farmContract.methods
     .withdraw(
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
@@ -167,8 +166,8 @@ export const unstake = async (masterChefContract, pid, amount, account) => {
       return tx.transactionHash
     })
 }
-export const harvest = async (masterChefContract, pid, account) => {
-  return masterChefContract.methods
+export const harvest = async (farmContract, pid, account) => {
+  return farmContract.methods
     .deposit(pid, '0')
     .send({ from: account })
     .on('transactionHash', (tx) => {
@@ -177,9 +176,9 @@ export const harvest = async (masterChefContract, pid, account) => {
     })
 }
 
-export const getStaked = async (masterChefContract, pid, account) => {
+export const getStaked = async (farmContract, pid, account) => {
   try {
-    const { amount } = await masterChefContract.methods
+    const { amount } = await farmContract.methods
       .userInfo(pid, account)
       .call()
     return new BigNumber(amount)
@@ -188,10 +187,10 @@ export const getStaked = async (masterChefContract, pid, account) => {
   }
 }
 
-export const redeem = async (masterChefContract, account) => {
+export const redeem = async (farmContract, account) => {
   let now = new Date().getTime() / 1000
   if (now >= 1597172400) {
-    return masterChefContract.methods
+    return farmContract.methods
       .exit()
       .send({ from: account })
       .on('transactionHash', (tx) => {

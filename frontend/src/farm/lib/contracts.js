@@ -19,21 +19,21 @@ export class Contracts {
     this.defaultConfirmations = options.defaultConfirmations
     this.autoGasMultiplier = options.autoGasMultiplier || 1.5
     this.confirmationType =
-      options.confirmationType || Types.ConfirmationType.Confirmed
+        options.confirmationType || Types.ConfirmationType.Confirmed
     this.defaultGas = options.defaultGas
     this.defaultGasPrice = options.defaultGasPrice
 
-    this.sushi = new this.web3.eth.Contract(ERC20Abi)
-    this.masterChef = new this.web3.eth.Contract(FarmAbi)
+    this.erc20 = new this.web3.eth.Contract(ERC20Abi)
+    this.farm = new this.web3.eth.Contract(FarmAbi)
     this.weth = new this.web3.eth.Contract(WETHAbi)
 
     this.pools = supportedPools.map((pool) =>
-      Object.assign(pool, {
-        lpAddress: pool.lpAddresses[networkId],
-        tokenAddress: pool.tokenAddresses[networkId],
-        lpContract: new this.web3.eth.Contract(UNIV2PairAbi),
-        tokenContract: new this.web3.eth.Contract(ERC20Abi),
-      }),
+        Object.assign(pool, {
+          lpAddress: pool.lpAddresses[networkId],
+          tokenAddress: pool.tokenAddresses[networkId],
+          lpContract: new this.web3.eth.Contract(UNIV2PairAbi),
+          tokenContract: new this.web3.eth.Contract(ERC20Abi),
+        }),
     )
 
     this.setProvider(provider, networkId)
@@ -47,21 +47,21 @@ export class Contracts {
       else console.error('Contract address not found in network', networkId)
     }
 
-    setProvider(this.sushi, contractAddresses.sushi[networkId])
-    setProvider(this.masterChef, contractAddresses.masterChef[networkId])
+    setProvider(this.erc20, contractAddresses.erc20[networkId])
+    setProvider(this.farm, contractAddresses.farm[networkId])
     setProvider(this.weth, contractAddresses.weth[networkId])
 
     this.pools.forEach(
-      ({ lpContract, lpAddress, tokenContract, tokenAddress }) => {
-        setProvider(lpContract, lpAddress)
-        setProvider(tokenContract, tokenAddress)
-      },
+        ({ lpContract, lpAddress, tokenContract, tokenAddress }) => {
+          setProvider(lpContract, lpAddress)
+          setProvider(tokenContract, tokenAddress)
+        },
     )
   }
 
   setDefaultAccount(account) {
-    this.sushi.options.from = account
-    this.masterChef.options.from = account
+    this.erc20.options.from = account
+    this.farm.options.from = account
   }
 
   // async callContractFunction(method, options) {

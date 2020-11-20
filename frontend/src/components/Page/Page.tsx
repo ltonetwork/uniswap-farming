@@ -16,6 +16,7 @@ const Page: React.FC = ({ children }) => (
 const StyledPage = styled.div``
 
 const StyledMain = styled.div`
+  background: #fafafa;
   align-items: center;
   display: flex;
   flex-direction: column;

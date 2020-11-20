@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react'
 
 import { useWallet } from 'use-wallet'
 
-import { Yam } from '../../sushi'
+import { Yam } from '../../farm'
 
 export interface YamContext {
   yam?: typeof Yam

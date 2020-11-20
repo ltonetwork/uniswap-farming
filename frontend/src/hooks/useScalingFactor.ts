@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
 
 import { bnToDec, decToBn } from '../utils'
-import { getScalingFactor } from '../sushi/utils'
+import { getScalingFactor } from '../farm/utils'
 
 import useYam from './useYam'
 

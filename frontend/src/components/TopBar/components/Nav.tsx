@@ -17,12 +17,6 @@ const Nav: React.FC<NavProps> = ({ showMenu }) => {
       <StyledLink exact activeClassName="active" to="/farms">
         Menu
       </StyledLink>
-      <StyledAbsoluteLink
-         href="https://medium.com/sushiswap/the-sushiswap-project-c4049ea9941e"
-         target="_blank"
-      >
-        About
-      </StyledAbsoluteLink>
       </>)}
     </StyledNav>
   )

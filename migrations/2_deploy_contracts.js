@@ -35,7 +35,7 @@ module.exports = function(deployer, network, addresses) {
     .then((currentBlock) => {
       const startBlock = config.startBlock
           || web3.utils.toBN(currentBlock).add(web3.utils.toBN(config.delay));
-    
+
       return deployer.deploy(
         Farm,
         erc20.address || ERC20.address,
@@ -43,10 +43,14 @@ module.exports = function(deployer, network, addresses) {
         startBlock
       );
     });
-    
+
     if (config.fund) {
       deploy = deploy
-        .then(() => { return ERC20.deployed(); })
+        .then(() => {
+          return erc20.address
+            ? ERC20.at(erc20.address)
+            : ERC20.deployed();
+        })
         .then((erc20Instance) => {
           return erc20Instance.approve(Farm.address, web3.utils.toBN(config.fund));
         })

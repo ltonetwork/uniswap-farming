@@ -4,7 +4,7 @@ import { provider } from 'web3-core'
 import BigNumber from 'bignumber.js'
 import { useWallet } from 'use-wallet'
 
-import { getEarned, getMasterChefContract, getFarms } from '../sushi/utils'
+import { getEarned, getFarmContract, getFarms } from '../farm/utils'
 import useYam from './useYam'
 import useBlock from './useBlock'
 
@@ -13,23 +13,23 @@ const useAllEarnings = () => {
   const { account }: { account: string; ethereum: provider } = useWallet()
   const yam = useYam()
   const farms = getFarms(yam)
-  const masterChefContract = getMasterChefContract(yam)
+  const farmContract = getFarmContract(yam)
   const block = useBlock()
 
   const fetchAllBalances = useCallback(async () => {
     const balances: Array<BigNumber> = await Promise.all(
       farms.map(({ pid }: { pid: number }) =>
-        getEarned(masterChefContract, pid, account),
+        getEarned(farmContract, pid, account),
       ),
     )
     setBalance(balances)
-  }, [account, masterChefContract, yam])
+  }, [account, farmContract, yam])
 
   useEffect(() => {
-    if (account && masterChefContract && yam) {
+    if (account && farmContract && yam) {
       fetchAllBalances()
     }
-  }, [account, block, masterChefContract, setBalance, yam])
+  }, [account, block, farmContract, setBalance, yam])
 
   return balances
 }

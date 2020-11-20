@@ -8,16 +8,22 @@ export const green = {
 
 export const red = {
   100: '#FFFDFE',
-  200: '#ffc2a8',
-  500: '#d16c00',
+  200: '#abacad',
+  500: '#969698',
 }
 
 export const grey = {
-  100: '#f7f4f2',
-  200: '#f0e9e7',
-  300: '#e2d6cf',
-  400: '#aa9585',
-  500: '#805e49',
-  600: '#5b3926',
+  100: '#f9f9f9',
+  200: '#d2d2d3',
+  300: '#c5c5c6',
+  400: '#abacad',
+  500: '#9e9fa0',
+  600: '#919394',
   800: '#2d1e12',
+}
+
+export const purple = {
+  100: '#804bc9',
+  300: '#976dd2',
+  600: '#ed007a'
 }
