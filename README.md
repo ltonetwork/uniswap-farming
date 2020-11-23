@@ -66,15 +66,15 @@ node_modules/.bin/truffle verify LPMock
 
 _Verification may fail because of rate limits. Just try again._
 
-### Ethereum
+### Ethereum mainnet
 
 ```
-npm run migrate -- --network live
-npm run verify -- --network live
+npm run migrate -- --network mainnet
+npm run verify -- --network mainnet
 ```
 
 The account that is used to create the Farm contract should have a sufficient amount of (LTO) ERC20 to fund the
-contract.
+contract. Alternatively; to manually fund, remove the 'fund' property from the configuration.
 
 # How it works
 
