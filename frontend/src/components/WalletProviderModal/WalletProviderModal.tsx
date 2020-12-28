@@ -36,14 +36,6 @@ const WalletProviderModal: React.FC<ModalProps> = ({ onDismiss }) => {
               title="Metamask"
             />
           </StyledWalletCard>
-          <Spacer size="sm" />
-          <StyledWalletCard>
-            <WalletCard
-              icon={<img src={walletConnectLogo} style={{ height: 24 }} />}
-              onConnect={() => connect('walletconnect')}
-              title="WalletConnect"
-            />
-          </StyledWalletCard>
         </StyledWalletsWrapper>
       </ModalContent>
 
