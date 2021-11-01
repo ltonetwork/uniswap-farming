@@ -37,6 +37,7 @@ export class Farm {
     }
     this.contracts = new Contracts(realProvider, networkId, this.web3, options)
     this.erc20Address = contractAddresses.erc20[networkId]
+    this.erc20v2Address = contractAddresses.erc20v2[networkId]
     this.farmAddress = contractAddresses.farm[networkId]
     this.wethAddress = contractAddresses.weth[networkId]
   }
