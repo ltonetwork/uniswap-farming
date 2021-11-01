@@ -1,5 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { UseWalletProvider } from 'use-wallet'
 
@@ -34,10 +39,16 @@ const App: React.FC = () => {
   return (
     <Providers>
       <Router>
-        <TopBar onPresentMobileMenu={handlePresentMobileMenu} showButton={true}/>
+        <TopBar
+          onPresentMobileMenu={handlePresentMobileMenu}
+          showButton={true}
+        />
         <MobileMenu onDismiss={handleDismissMobileMenu} visible={mobileMenu} />
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
+            <Redirect to="/farms" />
+          </Route>
+          <Route path="/farms">
             <Farms />
           </Route>
         </Switch>
@@ -50,11 +61,7 @@ const App: React.FC = () => {
 // https://infura.io/docs/gettingStarted/chooseaNetwork
 // https://www.anyblockanalytics.com/news/overview-ethereum-blockchain-networks/
 const Providers: React.FC = ({ children }) => {
-
-  const {
-    chainId,
-    rpcUrl
-  } = getEthChainInfo();
+  const { chainId, rpcUrl } = getEthChainInfo()
 
   return (
     <ThemeProvider theme={theme}>
