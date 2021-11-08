@@ -1,3 +1,6 @@
+// 42 - Testnet
+// 4 - Rinkeby
+// 1 - Mainnet
 export const contractAddresses = {
   erc20: {
     42: '0x9C821fF00DBb2D3D2C908f39bB497766eac2d8c6',
@@ -5,9 +8,10 @@ export const contractAddresses = {
     1: '0x3db6ba6ab6f95efed1a6e794cad492faaabf294d',
   },
   erc20v2: {
-    42: '0xd01409314acb3b245cea9500ece3f6fd4d70ea30', // @todo: add proper address
-    4: '0xd01409314acb3b245cea9500ece3f6fd4d70ea30', // @todo: add proper address
-    1: '0xd01409314acb3b245cea9500ece3f6fd4d70ea30', // @todo: check proper address
+    42: '0xbFd181cb0c8E23b65805Dded3863Dce6517402A7',
+    // Rinkeby ERC20 Faucet: https://rinkeby.etherscan.io/address/0xc6fDe3FD2Cc2b173aEC24cc3f267cb3Cd78a26B7#code
+    4: '0xc6fDe3FD2Cc2b173aEC24cc3f267cb3Cd78a26B7',
+    1: '0xd01409314acb3b245cea9500ece3f6fd4d70ea30',
   },
   farm: {
     42: '0xbFd181cb0c8E23b65805Dded3863Dce6517402A7',
@@ -30,11 +34,7 @@ export const supportedPools = [
       4: '0x7D721dDB45C1eaCceD8Dc4a3698a21b93eb7f9c3',
       1: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf',
     },
-    tokenAddresses: {
-      42: '0xbFd181cb0c8E23b65805Dded3863Dce6517402A7',
-      4: '0x7D08Dc5285A06c21aC5f4742C31B9D097607aaBc',
-      1: '0x3DB6Ba6ab6F95efed1a6E794caD492fAAabF294D',
-    },
+    tokenAddresses: { ...contractAddresses.erc20 },
     symbol: 'LTO-ETH UNI-V2 LP',
     tokenSymbol: 'LTO',
     icon: '',
@@ -44,17 +44,13 @@ export const supportedPools = [
     name: 'LTO V2',
     pid: 0,
     lpAddresses: {
-      42: '0x74414F027FDCda5DaacFa4d35F29C0d6c5020776', // @todo: check proper address
-      4: '0x7D721dDB45C1eaCceD8Dc4a3698a21b93eb7f9c3', // @todo: check proper address
-      1: '0x9cd7403ac4856071581e1f5a298317d9a72a19cf', // @todo: check proper address
+      42: '0x74414F027FDCda5DaacFa4d35F29C0d6c5020776',
+      4: '0x7D721dDB45C1eaCceD8Dc4a3698a21b93eb7f9c3',
+      1: '0x830d5ddfb7b988b5ff1b42e6d85430c753c4d096',
     },
-    tokenAddresses: {
-      42: '0xbFd181cb0c8E23b65805Dded3863Dce6517402A7', // @todo: check proper address
-      4: '0x7D08Dc5285A06c21aC5f4742C31B9D097607aaBc', // @todo: check proper address
-      1: '0xd01409314acb3b245cea9500ece3f6fd4d70ea30', // @todo: check proper address
-    },
-    symbol: 'LTOV2-ETH UNI-V2 LP',
-    tokenSymbol: 'LTOV2',
+    tokenAddresses: { ...contractAddresses.erc20v2 },
+    symbol: 'LTO-ETH UNI-V3 LP',
+    tokenSymbol: 'LTO',
     icon: '',
     pool: '100%',
   },

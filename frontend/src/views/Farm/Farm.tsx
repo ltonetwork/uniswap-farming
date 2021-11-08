@@ -87,7 +87,7 @@ const Farm: React.FC = () => {
             text="Open Uniswap Pool"
             backgroundColor="#ed007a"
             size="xs"
-            href="https://info.uniswap.org/#/tokens/0x3db6ba6ab6f95efed1a6e794cad492faaabf294d"
+            href={`https://info.uniswap.org/#/tokens/${tokenAddress}`}
           />
         </div>
         <Spacer size="lg" />

@@ -22,7 +22,7 @@ const Nav: React.FC = () => {
         target="_blank"
         href={`https://${ethscanType}etherscan.io/token/${contractAddressesTemp.erc20v2[chainId]}#code`}
       >
-        ERC20 V2 Contract
+        V2 ERC20 Contract
       </StyledLink>
       <StyledLink
         target="_blank"
