@@ -46,10 +46,10 @@ export const supportedPools = [
     lpAddresses: {
       42: '0x74414F027FDCda5DaacFa4d35F29C0d6c5020776',
       4: '0x7D721dDB45C1eaCceD8Dc4a3698a21b93eb7f9c3',
-      1: '0x830d5ddfb7b988b5ff1b42e6d85430c753c4d096',
+      1: '0x06bfac47528d0d6a2de3b1ae5d8214ad45b4b945',
     },
     tokenAddresses: { ...contractAddresses.erc20v2 },
-    symbol: 'LTO-ETH UNI-V3 LP',
+    symbol: 'LTOV2-ETH UNI-V2 LP',
     tokenSymbol: 'LTO',
     icon: '',
     pool: '100%',
