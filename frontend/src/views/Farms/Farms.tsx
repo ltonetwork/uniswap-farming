@@ -1,8 +1,7 @@
 import React from 'react'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import { useWallet } from 'use-wallet'
-
-import chef from '../../assets/img/chef.png'
+import styled from 'styled-components'
 
 import Button from '../../components/Button'
 import Page from '../../components/Page'
@@ -11,7 +10,6 @@ import WalletProviderModal from '../../components/WalletProviderModal'
 
 import useModal from '../../hooks/useModal'
 
-import useFarms from '../../hooks/useFarms'
 import Farm from '../Farm'
 
 import FarmCards from './components/FarmCards'
@@ -20,25 +18,27 @@ const Farms: React.FC = () => {
   const { path } = useRouteMatch()
   const { account } = useWallet()
   const [onPresentWalletProviderModal] = useModal(<WalletProviderModal />)
-  const [farms] = useFarms()
-  const farmId = farms && farms[0]?.id
 
   return (
     <Switch>
       <Page>
-        {(!!account && farmId) ? (
+        {!!account ? (
           <>
-            {/* Remove supported different Pools 
             <Route exact path={path}>
               <PageHeader
-                icon={<img src={chef} height="120" />}
-                subtitle="Earn SASHIMI tokens by staking Uniswap V2 LP Tokens."
-                title="Select Your Favorite Dishes"
+                title="Select Your Farm"
+                subtitle="Earn LTO tokens by staking Uniswap V2 LP Tokens."
               />
-              <FarmCards />
-            </Route>  */}
-            <Route path={'/'}>
-                <Farm farmId={farmId}/>
+              <StyledFarms>
+                <StyledCardsWrapper>
+                  <StyledCardWrapper>
+                    <FarmCards />
+                  </StyledCardWrapper>
+                </StyledCardsWrapper>
+              </StyledFarms>
+            </Route>
+            <Route path={`${path}/:farmId`}>
+              <Farm />
             </Route>
           </>
         ) : (
@@ -60,5 +60,34 @@ const Farms: React.FC = () => {
     </Switch>
   )
 }
+
+const StyledFarms = styled.div`
+  margin-top: -70px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`
+
+const StyledCardsWrapper = styled.div`
+  display: flex;
+  width: 600px;
+  @media (max-width: 768px) {
+    width: 100%;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+`
+
+const StyledCardWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  @media (max-width: 768px) {
+    width: 80%;
+  }
+`
 
 export default Farms

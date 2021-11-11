@@ -1,19 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import {contractAddresses} from '../../../farm/lib/constants';
-import {getEthChainInfo} from "../../../utils/getEthChainInfo";
+import { contractAddresses } from '../../../farm/lib/constants'
+import { getEthChainInfo } from '../../../utils/getEthChainInfo'
 import githubLogo from '../../../assets/img/github.png'
-import {GITHUB} from '../../../constants/config';
+import { GITHUB } from '../../../constants/config'
 
-const {
-    ethscanType,
-    chainId
-} = getEthChainInfo();
+const { ethscanType, chainId } = getEthChainInfo()
 
-const contractAddressesTemp = contractAddresses as {[index: string]:any};
+const contractAddressesTemp = contractAddresses as { [index: string]: any }
 
 const Nav: React.FC = () => {
-    return (
+  return (
     <StyledNav>
       <StyledLink
         target="_blank"
@@ -23,14 +20,17 @@ const Nav: React.FC = () => {
       </StyledLink>
       <StyledLink
         target="_blank"
+        href={`https://${ethscanType}etherscan.io/token/${contractAddressesTemp.erc20v2[chainId]}#code`}
+      >
+        V2 ERC20 Contract
+      </StyledLink>
+      <StyledLink
+        target="_blank"
         href={`https://${ethscanType}etherscan.io/address/${contractAddressesTemp.farm[chainId]}#code`}
       >
         Farm Contract
       </StyledLink>
-      <StyledLink
-        target="_blank"
-        href={GITHUB}
-      >
+      <StyledLink target="_blank" href={GITHUB}>
         <img src={githubLogo} />
       </StyledLink>
     </StyledNav>

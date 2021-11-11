@@ -23,7 +23,7 @@ import useAllStakedValue, {
   StakedValue,
 } from '../../../hooks/useAllStakedValue'
 
-import {BASIC_TOKEN} from '../../../constants/config';
+import { BASIC_TOKEN } from '../../../constants/config'
 
 interface FarmWithStakedValue extends Farm, StakedValue {
   apy: BigNumber
@@ -38,7 +38,8 @@ const FarmCards: React.FC = () => {
     ({ tokenSymbol }) => tokenSymbol === BASIC_TOKEN,
   )
 
-  const farmPrice = farmIndex >= 0 && stakedValue[farmIndex]
+  const farmPrice =
+    farmIndex >= 0 && stakedValue[farmIndex]
       ? stakedValue[farmIndex].tokenPriceInWeth
       : new BigNumber(0)
 
@@ -133,17 +134,34 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
 
   const poolActive = true // startTime * 1000 - Date.now() <= 0
 
-  let farmApy:any;
-  if (farm.apy && farm.apy.isNaN()) {
-    farmApy = '- %';
+  // let farmApy: any
+  // if (farm.apy && farm.apy.isNaN()) {
+  //   farmApy = '- %'
+  // } else {
+  //   farmApy = farm.apy
+  //     ? `${
+  //         farm.apy
+  //           .times(new BigNumber(100))
+  //           .toNumber()
+  //           .toLocaleString('en-US')
+  //           .slice(0, -1) || '-'
+  //       }%`
+  //     : 'Loading ...'
+  // }
+
+  let poolWeight: any
+  if (farm.poolWeight && farm.poolWeight.isNaN()) {
+    poolWeight = '- %'
   } else {
-    farmApy = farm.apy
-        ? `${farm.apy
+    poolWeight = farm.poolWeight
+      ? `${
+          farm.poolWeight
             .times(new BigNumber(100))
             .toNumber()
             .toLocaleString('en-US')
-            .slice(0, -1) || '-' }%`
-        : 'Loading ...';
+            .slice(0, -1) || '-'
+        }% pool rewards`
+      : 'Loading ...'
   }
 
   return (
@@ -155,8 +173,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
             <CardIcon>{farm.icon}</CardIcon>
             <StyledTitle>{farm.name}</StyledTitle>
             <StyledDetails>
-              <StyledDetail>Deposit {farm.lpToken.toUpperCase()}</StyledDetail>
-              <StyledDetail>Earn {farm.earnToken.toUpperCase()} ({farm.pool} Pool)</StyledDetail>
+              <StyledDetail>{poolWeight}</StyledDetail>
             </StyledDetails>
             <Spacer />
             <Button
@@ -171,12 +188,12 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
                 />
               )}
             </Button>
-            <StyledInsight>
+            {/* <StyledInsight>
               <span>APY</span>
               <span>
                 {farmApy}
               </span>
-              {/* <span>
+              <span>
                 {farm.tokenAmount
                   ? (farm.tokenAmount.toNumber() || 0).toLocaleString('en-US')
                   : '-'}{' '}
@@ -187,8 +204,8 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
                   ? (farm.wethAmount.toNumber() || 0).toLocaleString('en-US')
                   : '-'}{' '}
                 ETH
-              </span> */}
-            </StyledInsight>
+              </span>
+            </StyledInsight> */}
           </StyledContent>
         </CardContent>
       </Card>

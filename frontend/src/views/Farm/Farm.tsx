@@ -18,28 +18,19 @@ import { getFarmContract } from '../../farm/utils'
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'
 
-interface FarmProps {
-  farmId: string
-}
+const Farm: React.FC = () => {
+  const { farmId } = useParams<{ farmId: string }>()
 
-const Farm: React.FC<FarmProps> = ({ farmId }) => {
-  const {
-    pid,
-    lpToken,
-    lpTokenAddress,
-    tokenAddress,
-    earnToken,
-    name,
-    icon,
-  } = useFarm(farmId) || {
-    pid: 0,
-    lpToken: '',
-    lpTokenAddress: '',
-    tokenAddress: '',
-    earnToken: '',
-    name: '',
-    icon: '',
-  }
+  const { pid, lpToken, lpTokenAddress, tokenAddress, earnToken, name, icon } =
+    useFarm(farmId) || {
+      pid: 0,
+      lpToken: '',
+      lpTokenAddress: '',
+      tokenAddress: '',
+      earnToken: '',
+      name: '',
+      icon: '',
+    }
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -85,19 +76,19 @@ const Farm: React.FC<FarmProps> = ({ farmId }) => {
         <Spacer size="lg" />
         <Spacer size="lg" />
         <div
-              style={{
-                alignItems: 'center',
-                display: 'flex',
-                flex: 1,
-                justifyContent: 'center',
-              }}
-          >
-            <Button
-                text="Open Uniswap Pool"
-                backgroundColor='#ed007a'
-                size="xs"
-                href='https://info.uniswap.org/#/tokens/0x3db6ba6ab6f95efed1a6e794cad492faaabf294d'
-            />
+          style={{
+            alignItems: 'center',
+            display: 'flex',
+            flex: 1,
+            justifyContent: 'center',
+          }}
+        >
+          <Button
+            text="Open Uniswap Pool"
+            backgroundColor="#ed007a"
+            size="xs"
+            href={`https://info.uniswap.org/#/tokens/${tokenAddress}`}
+          />
         </div>
         <Spacer size="lg" />
       </StyledFarm>
