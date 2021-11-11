@@ -27,6 +27,7 @@ export const contractAddresses = {
 
 export const supportedPools = [
   {
+    id: 'ltov1',
     name: 'LTO V1',
     pid: 0,
     lpAddresses: {
@@ -41,15 +42,16 @@ export const supportedPools = [
     pool: '100%',
   },
   {
+    id: 'ltov2',
     name: 'LTO V2',
     pid: 0,
     lpAddresses: {
       42: '0x74414F027FDCda5DaacFa4d35F29C0d6c5020776',
-      4: '0x7D721dDB45C1eaCceD8Dc4a3698a21b93eb7f9c3',
+      4: '0x0Ffe5f2a17A47F2f627786ec36e96Aff7d3426b8',
       1: '0x06bfac47528d0d6a2de3b1ae5d8214ad45b4b945',
     },
     tokenAddresses: { ...contractAddresses.erc20v2 },
-    symbol: 'LTOV2-ETH UNI-V2 LP',
+    symbol: 'LTO-ETH UNI-V2 LP',
     tokenSymbol: 'LTO',
     icon: '',
     pool: '100%',
