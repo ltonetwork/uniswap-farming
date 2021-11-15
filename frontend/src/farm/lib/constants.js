@@ -44,7 +44,7 @@ export const supportedPools = [
   {
     id: 'ltov2',
     name: 'LTO V2',
-    pid: 0,
+    pid: 1,
     lpAddresses: {
       42: '0x74414F027FDCda5DaacFa4d35F29C0d6c5020776',
       4: '0x0Ffe5f2a17A47F2f627786ec36e96Aff7d3426b8',
