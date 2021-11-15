@@ -84,10 +84,10 @@ const Farm: React.FC = () => {
           }}
         >
           <Button
-            text="Open Uniswap Pool"
+            text="Token on Uniswap"
             backgroundColor="#ed007a"
             size="xs"
-            href={`https://v2.info.uniswap.org/#/tokens/${tokenAddress}`}
+            href={`https://v2.info.uniswap.org/token/${tokenAddress}`}
           />
         </div>
         <Spacer size="lg" />

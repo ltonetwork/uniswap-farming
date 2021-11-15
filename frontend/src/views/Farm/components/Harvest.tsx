@@ -15,10 +15,7 @@ import useReward from '../../../hooks/useReward'
 
 import imageLTO from '../../../assets/img/logo.png'
 
-import {
-  getDisplayBalance,
-  getBalanceNumber,
-} from '../../../utils/formatBalance'
+import { getDisplayBalance } from '../../../utils/formatBalance'
 
 interface HarvestProps {
   pid: number
@@ -34,8 +31,10 @@ const Harvest: React.FC<HarvestProps> = ({ pid }) => {
       <CardContent>
         <StyledCardContentInner>
           <StyledCardHeader>
-            <CardIcon><img src={imageLTO} height="50" style={{ marginTop: -4 }} /></CardIcon>
-            <Value value={getBalanceNumber(earnings, 8)} decimals={3} />
+            <CardIcon>
+              <img src={imageLTO} height="50" style={{ marginTop: -4 }} />
+            </CardIcon>
+            <Value value={getDisplayBalance(earnings, 8)} />
             <Label text="LTO Earned" />
           </StyledCardHeader>
           <StyledCardActions>
