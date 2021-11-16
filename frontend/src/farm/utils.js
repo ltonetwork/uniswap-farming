@@ -39,6 +39,7 @@ export const getFarms = (farm) => {
         ({
           id,
           pid,
+          version,
           name,
           symbol,
           icon,
@@ -51,6 +52,7 @@ export const getFarms = (farm) => {
         }) => ({
           id,
           pid,
+          version,
           name,
           lpToken: symbol,
           lpTokenAddress: lpAddress,

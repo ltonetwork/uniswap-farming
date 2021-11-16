@@ -28,7 +28,8 @@ export const contractAddresses = {
 export const supportedPools = [
   {
     id: 'ltov1',
-    name: 'LTO V1',
+    version: 'V1',
+    name: 'LTO ERC-20',
     pid: 0,
     lpAddresses: {
       42: '0x74414F027FDCda5DaacFa4d35F29C0d6c5020776',
@@ -43,7 +44,8 @@ export const supportedPools = [
   },
   {
     id: 'ltov2',
-    name: 'LTO V2',
+    version: 'V2',
+    name: 'LTO ERC-20',
     pid: 1,
     lpAddresses: {
       42: '0x74414F027FDCda5DaacFa4d35F29C0d6c5020776',
