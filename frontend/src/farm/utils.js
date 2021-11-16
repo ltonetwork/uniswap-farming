@@ -37,6 +37,7 @@ export const getFarms = (farm) => {
   return farm
     ? farm.contracts.pools.map(
         ({
+          id,
           pid,
           name,
           symbol,
@@ -48,8 +49,8 @@ export const getFarms = (farm) => {
           lpContract,
           pool,
         }) => ({
+          id,
           pid,
-          id: symbol,
           name,
           lpToken: symbol,
           lpTokenAddress: lpAddress,
@@ -69,9 +70,7 @@ export const getFarms = (farm) => {
 export const getPoolWeight = async (farmContract, pid) => {
   try {
     const { allocPoint } = await farmContract.methods.poolInfo(pid).call()
-    const totalAllocPoint = await farmContract.methods
-      .totalAllocPoint()
-      .call()
+    const totalAllocPoint = await farmContract.methods.totalAllocPoint().call()
     return new BigNumber(allocPoint).div(new BigNumber(totalAllocPoint))
   } catch {
     return new BigNumber(0)
@@ -178,9 +177,7 @@ export const harvest = async (farmContract, pid, account) => {
 
 export const getStaked = async (farmContract, pid, account) => {
   try {
-    const { amount } = await farmContract.methods
-      .userInfo(pid, account)
-      .call()
+    const { amount } = await farmContract.methods.userInfo(pid, account).call()
     return new BigNumber(amount)
   } catch {
     return new BigNumber(0)

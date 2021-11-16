@@ -21,7 +21,7 @@ import useStakedBalance from '../../../hooks/useStakedBalance'
 import useTokenBalance from '../../../hooks/useTokenBalance'
 import useUnstake from '../../../hooks/useUnstake'
 
-import { getBalanceNumber } from '../../../utils/formatBalance'
+import { getDisplayBalance } from '../../../utils/formatBalance'
 
 import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
@@ -80,8 +80,10 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
       <CardContent>
         <StyledCardContentInner>
           <StyledCardHeader>
-            <CardIcon><img src={imageUniswap} height="50" style={{ marginTop: -4 }} /></CardIcon>
-            <Value value={getBalanceNumber(stakedBalance)} />
+            <CardIcon>
+              <img src={imageUniswap} height="50" style={{ marginTop: -4 }} />
+            </CardIcon>
+            <Value value={getDisplayBalance(stakedBalance)} />
             <Label text={`${tokenName} Tokens Staked`} />
           </StyledCardHeader>
           <StyledCardActions>
@@ -101,11 +103,11 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
                 />
                 <StyledActionSpacer />
                 <Button
-                    disabled={stakedBalance.eq(new BigNumber(0))}
-                    text="Withdraw"
-                    border
-                    variant={'secondary'}
-                    onClick={onPresentWithdraw}
+                  disabled={stakedBalance.eq(new BigNumber(0))}
+                  text="Withdraw"
+                  border
+                  variant={'secondary'}
+                  onClick={onPresentWithdraw}
                 />
                 <StyledActionSpacer />
               </>

@@ -25,6 +25,8 @@ import useAllStakedValue, {
 
 import { BASIC_TOKEN } from '../../../constants/config'
 
+import imageLTO from '../../../assets/img/logo.png'
+
 interface FarmWithStakedValue extends Farm, StakedValue {
   apy: BigNumber
 }
@@ -154,13 +156,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
     poolWeight = '- %'
   } else {
     poolWeight = farm.poolWeight
-      ? `${
-          farm.poolWeight
-            .times(new BigNumber(100))
-            .toNumber()
-            .toLocaleString('en-US')
-            .slice(0, -1) || '-'
-        }% pool rewards`
+      ? `${farm.poolWeight.times(new BigNumber(100)).toNumber()}% pool rewards`
       : 'Loading ...'
   }
 
@@ -170,7 +166,9 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
       <Card>
         <CardContent>
           <StyledContent>
-            <CardIcon>{farm.icon}</CardIcon>
+            <CardIcon>
+              <img src={imageLTO} height="50" style={{ marginTop: -4 }} />
+            </CardIcon>
             <StyledTitle>{farm.name}</StyledTitle>
             <StyledDetails>
               <StyledDetail>{poolWeight}</StyledDetail>
