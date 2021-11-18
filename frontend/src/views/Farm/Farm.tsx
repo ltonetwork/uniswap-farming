@@ -21,16 +21,25 @@ import Stake from './components/Stake'
 const Farm: React.FC = () => {
   const { farmId } = useParams<{ farmId: string }>()
 
-  const { pid, lpToken, lpTokenAddress, tokenAddress, earnToken, name, icon } =
-    useFarm(farmId) || {
-      pid: 0,
-      lpToken: '',
-      lpTokenAddress: '',
-      tokenAddress: '',
-      earnToken: '',
-      name: '',
-      icon: '',
-    }
+  const {
+    pid,
+    lpToken,
+    lpTokenAddress,
+    tokenAddress,
+    earnToken,
+    name,
+    icon,
+    version,
+  } = useFarm(farmId) || {
+    pid: 0,
+    lpToken: '',
+    lpTokenAddress: '',
+    tokenAddress: '',
+    earnToken: '',
+    name: '',
+    icon: '',
+    version: '',
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -57,7 +66,7 @@ const Farm: React.FC = () => {
     <>
       <PageHeader
         subtitle={`Deposit ${lpTokenName} Tokens and earn ${earnTokenName}`}
-        title={name}
+        title={`${name} ${version}`}
       />
       <StyledFarm>
         <StyledCardsWrapper>

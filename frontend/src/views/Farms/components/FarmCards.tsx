@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
-import Countdown, { CountdownRenderProps } from 'react-countdown'
+import { CountdownRenderProps } from 'react-countdown'
 import { useWallet } from 'use-wallet'
-import numeral from 'numeral'
 
 import Button from '../../../components/Button'
 import Card from '../../../components/Card'
@@ -134,7 +133,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
     }
   }, [yam, lpTokenAddress, account, setHarvestable])
 
-  const poolActive = true // startTime * 1000 - Date.now() <= 0
+  // const poolActive = true // startTime * 1000 - Date.now() <= 0
 
   // let farmApy: any
   // if (farm.apy && farm.apy.isNaN()) {
@@ -167,25 +166,29 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
         <CardContent>
           <StyledContent>
             <CardIcon>
-              <img src={imageLTO} height="50" style={{ marginTop: -4 }} />
+              <img
+                src={imageLTO}
+                height="50"
+                style={
+                  farm.version === 'V1'
+                    ? { filter: 'grayscale(1)', marginTop: -4 }
+                    : { marginTop: -4 }
+                }
+              />
             </CardIcon>
-            <StyledTitle>{farm.name}</StyledTitle>
+            <StyledTitle>
+              {farm.name}
+              <StyledVersion> {farm.version}</StyledVersion>
+            </StyledTitle>
             <StyledDetails>
               <StyledDetail>{poolWeight}</StyledDetail>
             </StyledDetails>
             <Spacer />
             <Button
-              disabled={!poolActive}
-              text={poolActive ? 'Select' : undefined}
+              text="Select"
+              variant={'tertiary'}
               to={`/farms/${farm.id}`}
-            >
-              {!poolActive && (
-                <Countdown
-                  date={new Date(startTime * 1000)}
-                  renderer={renderer}
-                />
-              )}
-            </Button>
+            ></Button>
             {/* <StyledInsight>
               <span>APY</span>
               <span>
@@ -286,6 +289,14 @@ const StyledTitle = styled.h4`
   color: ${(props) => props.theme.color.grey[600]};
   font-size: 24px;
   font-weight: 700;
+  margin: ${(props) => props.theme.spacing[2]}px 0 0;
+  padding: 0;
+`
+
+const StyledVersion = styled.span`
+  color: rgb(23, 5, 75);
+  font-size: 24px;
+  font-weight: 900;
   margin: ${(props) => props.theme.spacing[2]}px 0 0;
   padding: 0;
 `

@@ -1,10 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom'
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { UseWalletProvider } from 'use-wallet'
 
@@ -38,7 +33,7 @@ const App: React.FC = () => {
 
   return (
     <Providers>
-      <Router>
+      <HashRouter>
         <TopBar
           onPresentMobileMenu={handlePresentMobileMenu}
           showButton={true}
@@ -52,7 +47,7 @@ const App: React.FC = () => {
             <Farms />
           </Route>
         </Switch>
-      </Router>
+      </HashRouter>
       <Disclaimer />
     </Providers>
   )
